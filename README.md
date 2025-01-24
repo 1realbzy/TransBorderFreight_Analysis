@@ -6,6 +6,7 @@ Project Overview
 The TransBorderFreight Data Analysis project focuses on analyzing freight transportation data provided by the Bureau of Transportation Statistics (BTS). The goal is to uncover insights into the efficiency, safety, and environmental impact of freight transportation across road, rail, air, and water modes. By leveraging data-driven analysis, this project identifies inefficiencies, recognizes patterns, and proposes actionable solutions to improve the performance and sustainability of transportation systems. Using the CRISP-DM methodology, the project delivers comprehensive visualizations, insights, and recommendations to support informed decision-making for stakeholders.
 
 Tools to be used
+
 Visualization: Matplotlib, Seaborn, Plotly.
 
 Advanced Analysis: Scikit-learn, Statsmodels.
