@@ -15,4 +15,19 @@ Documentation: Jupyter Notebook.
 
 Dashboards (Optional): Streamlit
 
+
+# BTS Transborder Freight Analysis
+
+## Project Goals
+- Analyze freight data for January 2020.
+- Identify trends, inefficiencies, and environmental impacts.
+
+## Initial Notebook
+- `notebooks/analysis.ipynb`: Loads and previews the `dot1_0120.xlsx` dataset.
+
+## Next Steps
+- Process remaining January datasets.
+- Map codes (e.g., `CANPROV`, `TRDTYPE`) to meaningful labels.
+- Analyze trends by transportation mode.
+
 Version Control: Git and GitHub.
