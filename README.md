@@ -23,7 +23,7 @@ Dashboards (Optional): Streamlit
 - Identify trends, inefficiencies, and environmental impacts.
 
 ## Initial Notebook
-- `notebooks/analysis.ipynb`: Loads and previews the `dot1_0120.xlsx` dataset.
+
 
 ## Next Steps
 - Process remaining January datasets.
