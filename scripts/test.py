@@ -1,53 +1,42 @@
-# scripts/process_all_months.py
+# scripts/clean_summary.py
+
 import os
 import pandas as pd
 
-# Base directory containing all monthly folders
-DATA_BASE_DIR = r"C:\Users\hbempong\TransBorderFreight_Analysis\data\2020"
+# Directory containing the summary files
 OUTPUT_DIR = r"C:\Users\hbempong\TransBorderFreight_Analysis\output"
+CLEANED_OUTPUT_DIR = os.path.join(OUTPUT_DIR, "cleaned")
 
-# Ensure output directory exists
-if not os.path.exists(OUTPUT_DIR):
-    os.makedirs(OUTPUT_DIR)
+# Ensure cleaned output directory exists
+if not os.path.exists(CLEANED_OUTPUT_DIR):
+    os.makedirs(CLEANED_OUTPUT_DIR)
 
-def process_csv_in_chunks(file_path, output_file, chunk_size=50000):
-    """Process a large CSV in chunks, computing summaries and saving a sample."""
-    summary_data = []
-    sample_data = None
+def clean_summary_file(file_path):
+    """Clean a summary CSV file and save the cleaned version."""
+    df = pd.read_csv(file_path)
 
-    for chunk in pd.read_csv(file_path, chunksize=chunk_size):
-        summary_data.append(chunk.describe())  # Summarize numeric columns
-        
-        # Save first few rows as a sample (only once)
-        if sample_data is None:
-            sample_data = chunk.head(500)  
+    # Drop duplicate rows
+    df = df.drop_duplicates()
 
-    # Save summary statistics
-    summary_df = pd.concat(summary_data)
-    summary_df.to_csv(output_file, index=False)
-    
-    # Save sample data for review
-    sample_output_file = output_file.replace("summary_", "sample_")
-    if sample_data is not None:
-        sample_data.to_csv(sample_output_file, index=False)
+    # Handle missing values (fill with 0 for now, can be changed later)
+    df = df.fillna(0)
 
-    print(f"Processed {file_path}. Summary saved to {output_file}.")
+    # Flatten multi-index columns if needed
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = ['_'.join(col).strip() for col in df.columns.values]
 
-def process_all_months():
-    """Loop through all month folders and process CSV files."""
-    for month_folder in os.listdir(DATA_BASE_DIR):
-        month_path = os.path.join(DATA_BASE_DIR, month_folder)
+    # Save cleaned summary file
+    cleaned_file_path = os.path.join(CLEANED_OUTPUT_DIR, os.path.basename(file_path))
+    df.to_csv(cleaned_file_path, index=False)
 
-        if os.path.isdir(month_path):  # Ensure it's a folder
-            print(f"Processing data for {month_folder}...")
+    print(f"Cleaned: {file_path} -> {cleaned_file_path}")
 
-            for file_name in os.listdir(month_path):
-                if file_name.endswith(".csv"):
-                    file_path = os.path.join(month_path, file_name)
-                    output_file = os.path.join(OUTPUT_DIR, f"summary_{month_folder}_{file_name}")
-                    
-                    # Process CSV in chunks
-                    process_csv_in_chunks(file_path, output_file)
+def clean_all_summaries():
+    """Find and clean all summary files in the output directory."""
+    for file_name in os.listdir(OUTPUT_DIR):
+        if file_name.startswith("summary_") and file_name.endswith(".csv"):
+            file_path = os.path.join(OUTPUT_DIR, file_name)
+            clean_summary_file(file_path)
 
 if __name__ == "__main__":
-    process_all_months()
+    clean_all_summaries()
