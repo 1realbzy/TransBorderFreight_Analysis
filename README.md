@@ -22,8 +22,8 @@ Dashboards (Optional): Streamlit
 - Analyze freight data for January 2020.
 - Identify trends, inefficiencies, and environmental impacts.
 
-## Initial Notebook
-
+## Notebook
+Jupyter notebooks
 
 ## Next Steps
 - Process remaining January datasets.
@@ -31,3 +31,8 @@ Dashboards (Optional): Streamlit
 - Analyze trends by transportation mode.
 
 Version Control: Git and GitHub.
+
+
+####
+Update to how work is gonna be done, will look at key factors affecting key areas to analyze and do analysis based off that
+
