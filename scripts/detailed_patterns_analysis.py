@@ -37,22 +37,7 @@ class DetailedPatternsAnalysis:
             
             for encoding in encodings:
                 try:
-                    df = pd.read_csv(file_path, dtype={
-                        'TRDTYPE': str,
-                        'USASTATE': str,
-                        'DEPE': str,
-                        'DISAGMOT': str,
-                        'MEXSTATE': str,
-                        'CANPROV': str,
-                        'COUNTRY': str,
-                        'VALUE': str,  # Read as string first to handle bad data
-                        'SHIPWT': str,
-                        'FREIGHT_CHARGES': str,
-                        'DF': str,
-                        'CONTCODE': str,
-                        'MONTH': str,
-                        'YEAR': str
-                    }, encoding=encoding)
+                    df = pd.read_csv(file_path, dtype=str, encoding=encoding)
                     break
                 except UnicodeDecodeError:
                     continue
@@ -67,21 +52,29 @@ class DetailedPatternsAnalysis:
                 if col in df.columns:
                     df[col] = pd.to_numeric(df[col].str.replace(',', ''), errors='coerce').fillna(0)
             
-            # Fill missing values
-            df['USASTATE'] = df['USASTATE'].fillna('Unknown')
-            df['MEXSTATE'] = df['MEXSTATE'].fillna('')
-            df['CANPROV'] = df['CANPROV'].fillna('')
+            # Handle different file types (dot1, dot2, dot3)
+            file_type = file_path.stem.split('_')[0]  # Get dot1, dot2, or dot3
+            
+            if file_type == 'dot3':
+                # dot3 files don't have state/province info
+                df['USASTATE'] = 'Aggregated'
+                df['MEXSTATE'] = ''
+                df['CANPROV'] = ''
+            else:
+                # Fill missing values for dot1 and dot2 files
+                df['USASTATE'] = df['USASTATE'].fillna('Unknown')
+                df['MEXSTATE'] = df['MEXSTATE'].fillna('')
+                df['CANPROV'] = df['CANPROV'].fillna('')
+            
+            # Common missing value handling
             df['COUNTRY'] = df['COUNTRY'].fillna('0000')
             df['DEPE'] = df['DEPE'].fillna('Unknown')
-            
-            # Ensure all required columns exist
-            required_cols = ['TRDTYPE', 'USASTATE', 'DEPE', 'DISAGMOT', 'COUNTRY', 'VALUE', 'SHIPWT']
-            missing_cols = [col for col in required_cols if col not in df.columns]
-            if missing_cols:
-                raise ValueError(f"Missing required columns: {missing_cols}")
+            df['DISAGMOT'] = df['DISAGMOT'].fillna('Unknown')
             
             # Add file metadata
             df['source_file'] = file_path.name
+            df['file_type'] = file_type
+            
             return df
             
         except Exception as e:
@@ -97,7 +90,9 @@ class DetailedPatternsAnalysis:
         for csv_file in year_path.rglob("*.csv"):
             # Skip YTD files as they are cumulative
             if "ytd" not in csv_file.name.lower():
-                all_files.append(csv_file)
+                # Only process dot1 files for now to avoid double counting
+                if csv_file.name.startswith("dot1"):
+                    all_files.append(csv_file)
         
         return all_files
     
