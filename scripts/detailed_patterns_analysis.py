@@ -81,15 +81,25 @@ class DetailedPatternsAnalysis:
             print(f"Error processing {file_path}: {str(e)}")
             return pd.DataFrame()
     
+    def _find_csv_files(self, year: str) -> List[Path]:
+        """Find all CSV files for a given year, handling different directory structures"""
+        year_path = self.base_dir / year
+        all_files = []
+        
+        # Search recursively for all CSV files
+        for csv_file in year_path.rglob("*.csv"):
+            # Skip YTD files as they are cumulative
+            if "ytd" not in csv_file.name.lower():
+                all_files.append(csv_file)
+        
+        return all_files
+    
     def analyze_seasonal_patterns(self, year: str = '2020') -> Dict:
         """Analyze seasonal patterns within a year"""
         print(f"\nAnalyzing seasonal patterns for {year}...")
         
         # Get all CSV files for the specified year
-        year_path = self.base_dir / year
-        all_files = []
-        for month_dir in year_path.glob("*/*/*.csv"):
-            all_files.append(month_dir)
+        all_files = self._find_csv_files(year)
         
         if not all_files:
             raise ValueError(f"No data files found for year {year}")
@@ -163,10 +173,7 @@ class DetailedPatternsAnalysis:
         print(f"\nAnalyzing trade corridors for {year}...")
         
         # Get all CSV files for the specified year
-        year_path = self.base_dir / year
-        all_files = []
-        for month_dir in year_path.glob("*/*/*.csv"):
-            all_files.append(month_dir)
+        all_files = self._find_csv_files(year)
         
         # Process files
         corridor_data = []
@@ -224,10 +231,7 @@ class DetailedPatternsAnalysis:
         print(f"\nAnalyzing commodity distribution for {year}...")
         
         # Get all CSV files for the specified year
-        year_path = self.base_dir / year
-        all_files = []
-        for month_dir in year_path.glob("*/*/*.csv"):
-            all_files.append(month_dir)
+        all_files = self._find_csv_files(year)
         
         if not all_files:
             raise ValueError(f"No data files found for year {year}")
