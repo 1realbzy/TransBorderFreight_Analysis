@@ -62,6 +62,12 @@ class ComprehensiveAnalysis:
         results = self.analysis.analyze_trade_corridors(year)
         df = results['corridor_data']
 
+        # Add direction based on origin-destination
+        df['direction'] = df.apply(lambda x: 
+            'Export' if x['origin'].startswith('US') else 
+            'Import' if x['destination'].startswith('US') else 
+            'Transit', axis=1)
+
         # Analyze by direction
         direction_stats = df.groupby('direction').agg({
             'VALUE': 'sum',
