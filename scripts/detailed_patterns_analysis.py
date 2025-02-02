@@ -61,11 +61,20 @@ class DetailedPatternsAnalysis:
                 raise ValueError("Could not read file with any encoding")
             
             # Clean the data
+            # Replace any non-finite values with 0
             numeric_cols = ['VALUE', 'SHIPWT', 'FREIGHT_CHARGES']
             for col in numeric_cols:
                 if col in df.columns:
                     df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
             
+            # Ensure all required columns exist
+            required_cols = ['TRDTYPE', 'USASTATE', 'DEPE', 'DISAGMOT', 'COUNTRY', 'VALUE', 'SHIPWT']
+            missing_cols = [col for col in required_cols if col not in df.columns]
+            if missing_cols:
+                raise ValueError(f"Missing required columns: {missing_cols}")
+            
+            # Add file metadata
+            df['source_file'] = file_path.name
             return df
             
         except Exception as e:
@@ -82,24 +91,31 @@ class DetailedPatternsAnalysis:
         for month_dir in year_path.glob("*/*/*.csv"):
             all_files.append(month_dir)
         
+        if not all_files:
+            raise ValueError(f"No data files found for year {year}")
+        
         # Process files
         monthly_data = []
         for file in tqdm(all_files, desc="Processing files"):
             df = self._process_file(file)
             if not df.empty:
-                # Extract month from filename or path
-                month = int(df['MONTH'].iloc[0])
                 monthly_stats = {
-                    'month': month,
-                    'month_name': calendar.month_name[month],
+                    'month': df['MONTH'].iloc[0],
+                    'month_name': calendar.month_name[int(df['MONTH'].iloc[0])],
                     'total_value': df['VALUE'].sum(),
                     'total_weight': df['SHIPWT'].sum(),
-                    'num_shipments': len(df)
+                    'num_shipments': len(df),
+                    'avg_value_per_shipment': df['VALUE'].sum() / len(df) if len(df) > 0 else 0
                 }
                 monthly_data.append(monthly_stats)
         
-        # Convert to DataFrame
+        if not monthly_data:
+            raise ValueError(f"No valid data processed for year {year}")
+        
+        # Convert to DataFrame and sort by month
         seasonal_df = pd.DataFrame(monthly_data)
+        seasonal_df['month'] = pd.to_numeric(seasonal_df['month'])
+        seasonal_df = seasonal_df.sort_values('month')
         
         # Create visualization
         fig = go.Figure()
@@ -112,12 +128,12 @@ class DetailedPatternsAnalysis:
             line=dict(color='blue')
         ))
         
-        # Add shipment count line
+        # Add average value per shipment line
         fig.add_trace(go.Scatter(
             x=seasonal_df['month_name'],
-            y=seasonal_df['num_shipments'],
-            name='Number of Shipments',
-            line=dict(color='red'),
+            y=seasonal_df['avg_value_per_shipment'],
+            name='Avg Value/Shipment',
+            line=dict(color='green'),
             yaxis='y2'
         ))
         
@@ -126,7 +142,7 @@ class DetailedPatternsAnalysis:
             xaxis_title='Month',
             yaxis_title='Total Value',
             yaxis2=dict(
-                title='Number of Shipments',
+                title='Average Value per Shipment',
                 overlaying='y',
                 side='right'
             )
@@ -213,6 +229,9 @@ class DetailedPatternsAnalysis:
         for month_dir in year_path.glob("*/*/*.csv"):
             all_files.append(month_dir)
         
+        if not all_files:
+            raise ValueError(f"No data files found for year {year}")
+        
         # Process files
         commodity_data = []
         for file in tqdm(all_files, desc="Processing files"):
@@ -225,17 +244,53 @@ class DetailedPatternsAnalysis:
                 }).reset_index()
                 commodity_data.append(commodities)
         
+        if not commodity_data:
+            raise ValueError(f"No valid data processed for year {year}")
+        
         # Combine all commodity data
         combined_commodities = pd.concat(commodity_data, ignore_index=True)
         
+        # Aggregate by commodity code
+        final_commodities = combined_commodities.groupby('DEPE').agg({
+            'VALUE': 'sum',
+            'SHIPWT': 'sum'
+        }).reset_index()
+        
+        # Calculate percentages
+        final_commodities['value_percentage'] = (final_commodities['VALUE'] / final_commodities['VALUE'].sum()) * 100
+        final_commodities['weight_percentage'] = (final_commodities['SHIPWT'] / final_commodities['SHIPWT'].sum()) * 100
+        
         # Get top commodities
-        top_commodities = combined_commodities.nlargest(15, 'VALUE')
+        top_commodities = final_commodities.nlargest(15, 'VALUE')
         
         # Create visualization
-        fig = px.treemap(top_commodities,
-                        path=['DEPE'],
-                        values='VALUE',
-                        title=f'Top 15 Commodities by Value ({year})')
+        fig = go.Figure()
+        
+        # Add value percentage bars
+        fig.add_trace(go.Bar(
+            name='Value %',
+            x=top_commodities['DEPE'],
+            y=top_commodities['value_percentage'],
+            marker_color='blue',
+            opacity=0.7
+        ))
+        
+        # Add weight percentage bars
+        fig.add_trace(go.Bar(
+            name='Weight %',
+            x=top_commodities['DEPE'],
+            y=top_commodities['weight_percentage'],
+            marker_color='red',
+            opacity=0.7
+        ))
+        
+        fig.update_layout(
+            title=f'Top 15 Commodities by Value and Weight ({year})',
+            barmode='group',
+            xaxis_title='Commodity Code',
+            yaxis_title='Percentage (%)',
+            xaxis={'tickangle': 45}
+        )
         
         # Save visualization
         viz_path = self.results_dir / f'commodity_distribution_{year}.html'
