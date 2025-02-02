@@ -45,9 +45,9 @@ class DetailedPatternsAnalysis:
                         'MEXSTATE': str,
                         'CANPROV': str,
                         'COUNTRY': str,
-                        'VALUE': float,
-                        'SHIPWT': float,
-                        'FREIGHT_CHARGES': float,
+                        'VALUE': str,  # Read as string first to handle bad data
+                        'SHIPWT': str,
+                        'FREIGHT_CHARGES': str,
                         'DF': str,
                         'CONTCODE': str,
                         'MONTH': str,
@@ -61,11 +61,18 @@ class DetailedPatternsAnalysis:
                 raise ValueError("Could not read file with any encoding")
             
             # Clean the data
-            # Replace any non-finite values with 0
+            # Convert numeric columns, replacing any invalid values with 0
             numeric_cols = ['VALUE', 'SHIPWT', 'FREIGHT_CHARGES']
             for col in numeric_cols:
                 if col in df.columns:
-                    df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
+                    df[col] = pd.to_numeric(df[col].str.replace(',', ''), errors='coerce').fillna(0)
+            
+            # Fill missing values
+            df['USASTATE'] = df['USASTATE'].fillna('Unknown')
+            df['MEXSTATE'] = df['MEXSTATE'].fillna('')
+            df['CANPROV'] = df['CANPROV'].fillna('')
+            df['COUNTRY'] = df['COUNTRY'].fillna('0000')
+            df['DEPE'] = df['DEPE'].fillna('Unknown')
             
             # Ensure all required columns exist
             required_cols = ['TRDTYPE', 'USASTATE', 'DEPE', 'DISAGMOT', 'COUNTRY', 'VALUE', 'SHIPWT']
