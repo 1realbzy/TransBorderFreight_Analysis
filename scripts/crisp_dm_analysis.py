@@ -25,6 +25,7 @@ class CRISPDMAnalysis:
         self.output_dir = data_dir.parent / "output" / "crisp_dm_analysis"
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.logger = logging.getLogger(__name__)
+        self.data_coverage = None
         
         # Define business questions
         self.business_questions = {
@@ -36,6 +37,58 @@ class CRISPDMAnalysis:
             "Q6": "Which routes and transport modes show the highest efficiency and lowest environmental impact?",
             "Q7": "What are the seasonal patterns and their implications for freight planning?"
         }
+
+    def check_data_coverage(self) -> bool:
+        """
+        Check data coverage and warn about incomplete periods
+        Returns True if we have enough data for meaningful analysis
+        """
+        from prepare_data import validate_data_coverage
+        
+        self.data_coverage = validate_data_coverage(self.data_dir)
+        complete_periods = len(self.data_coverage["complete_periods"])
+        total_expected = 12 * 5  # 5 years * 12 months
+        coverage_ratio = complete_periods / total_expected
+        
+        self.logger.info(f"\nData Coverage Analysis:")
+        self.logger.info(f"Complete periods: {complete_periods} out of {total_expected} ({coverage_ratio:.1%})")
+        
+        if coverage_ratio < 0.5:
+            self.logger.warning("WARNING: Less than 50% data coverage. Analysis results may be unreliable.")
+            return False
+        elif coverage_ratio < 0.8:
+            self.logger.warning("CAUTION: Less than 80% data coverage. Some trends may be incomplete.")
+            return True
+        else:
+            self.logger.info("Good data coverage (>80%). Analysis should be reliable.")
+            return True
+            
+    def analyze_with_coverage_warning(self, df: pd.DataFrame) -> Dict:
+        """Analyze data with coverage warnings"""
+        results = {}
+        
+        # Add coverage warning to results
+        if self.data_coverage:
+            results["coverage_warning"] = {
+                "complete_periods": len(self.data_coverage["complete_periods"]),
+                "missing_periods": len(self.data_coverage["missing_periods"]),
+                "partial_periods": len(self.data_coverage["partial_periods"])
+            }
+        
+        # Perform analysis only if we have sufficient data
+        if self.check_data_coverage():
+            # Analyze trends
+            results["trends"] = self.analyze_trends(df)
+            results["efficiency"] = self.analyze_efficiency(df)
+            results["environmental"] = self.analyze_environmental_impact(df)
+            results["safety"] = self.analyze_safety_factors(df)
+            results["economic"] = self.analyze_economic_patterns(df)
+            results["routes"] = self.analyze_route_efficiency(df)
+            results["seasonal"] = self.analyze_seasonal_patterns(df)
+        else:
+            self.logger.warning("Insufficient data for comprehensive analysis. Please obtain more data.")
+            
+        return results
 
     def business_understanding(self) -> Dict:
         """
@@ -646,3 +699,149 @@ class CRISPDMAnalysis:
         except Exception as e:
             self.logger.error(f"Error generating recommendations: {str(e)}")
             raise
+
+    def analyze_trends(self, df: pd.DataFrame) -> Dict:
+        """Analyze major patterns and trends in freight movement"""
+        try:
+            trends = {}
+            
+            # Analyze transport mode trends
+            mode_trends = df.groupby(['Date', 'DISAGMOT']).agg({
+                'VALUE': 'sum',
+                'SHIPWT': 'sum'
+            }).reset_index()
+            
+            # Calculate monthly totals and market share by mode
+            monthly_by_mode = mode_trends.pivot_table(
+                index='Date',
+                columns='DISAGMOT',
+                values=['VALUE', 'SHIPWT'],
+                aggfunc='sum'
+            ).fillna(0)
+            
+            # Calculate growth rates
+            trends['growth_rates'] = {
+                'value': monthly_by_mode['VALUE'].pct_change().mean().to_dict(),
+                'weight': monthly_by_mode['SHIPWT'].pct_change().mean().to_dict()
+            }
+            
+            return trends
+        except Exception as e:
+            self.logger.error(f"Error in trend analysis: {str(e)}")
+            return {}
+            
+    def analyze_efficiency(self, df: pd.DataFrame) -> Dict:
+        """Analyze operational efficiency"""
+        try:
+            efficiency = {}
+            
+            # Calculate value per shipment weight
+            df['efficiency_ratio'] = df['VALUE'] / df['SHIPWT'].where(df['SHIPWT'] > 0, 0)
+            
+            # Analyze efficiency by transport mode
+            efficiency['by_mode'] = df.groupby('DISAGMOT').agg({
+                'efficiency_ratio': 'mean',
+                'FREIGHT_CHARGES': 'mean'
+            }).to_dict()
+            
+            return efficiency
+        except Exception as e:
+            self.logger.error(f"Error in efficiency analysis: {str(e)}")
+            return {}
+            
+    def analyze_environmental_impact(self, df: pd.DataFrame) -> Dict:
+        """Analyze environmental impact of different transport modes"""
+        try:
+            impact = {}
+            
+            # Calculate total weight moved by each mode
+            impact['weight_by_mode'] = df.groupby('DISAGMOT')['SHIPWT'].sum().to_dict()
+            
+            # Calculate average distance factor (DF) by mode
+            impact['distance_factor'] = df.groupby('DISAGMOT')['DF'].mean().to_dict()
+            
+            return impact
+        except Exception as e:
+            self.logger.error(f"Error in environmental impact analysis: {str(e)}")
+            return {}
+            
+    def analyze_safety_factors(self, df: pd.DataFrame) -> Dict:
+        """Analyze safety concerns and risk factors"""
+        try:
+            safety = {}
+            
+            # Analyze high-value shipments
+            high_value_threshold = df['VALUE'].quantile(0.95)
+            high_value_shipments = df[df['VALUE'] >= high_value_threshold]
+            
+            safety['high_value_analysis'] = {
+                'threshold': high_value_threshold,
+                'count': len(high_value_shipments),
+                'modes': high_value_shipments['DISAGMOT'].value_counts().to_dict()
+            }
+            
+            return safety
+        except Exception as e:
+            self.logger.error(f"Error in safety analysis: {str(e)}")
+            return {}
+            
+    def analyze_economic_patterns(self, df: pd.DataFrame) -> Dict:
+        """Analyze economic disruptions and recovery patterns"""
+        try:
+            economic = {}
+            
+            # Calculate monthly total value
+            monthly_value = df.groupby('Date')['VALUE'].sum()
+            
+            # Detect significant changes
+            economic['value_changes'] = {
+                'monthly_growth': monthly_value.pct_change().describe().to_dict(),
+                'volatility': monthly_value.std() / monthly_value.mean()
+            }
+            
+            return economic
+        except Exception as e:
+            self.logger.error(f"Error in economic pattern analysis: {str(e)}")
+            return {}
+            
+    def analyze_route_efficiency(self, df: pd.DataFrame) -> Dict:
+        """Analyze route efficiency and environmental impact"""
+        try:
+            routes = {}
+            
+            # Calculate efficiency metrics by route
+            route_metrics = df.groupby(['USASTATE', 'MEXSTATE', 'CANPROV']).agg({
+                'VALUE': 'sum',
+                'SHIPWT': 'sum',
+                'FREIGHT_CHARGES': 'mean',
+                'DF': 'mean'
+            })
+            
+            # Identify top efficient routes
+            route_metrics['value_per_weight'] = route_metrics['VALUE'] / route_metrics['SHIPWT']
+            routes['top_efficient'] = route_metrics.nlargest(10, 'value_per_weight').to_dict()
+            
+            return routes
+        except Exception as e:
+            self.logger.error(f"Error in route efficiency analysis: {str(e)}")
+            return {}
+            
+    def analyze_seasonal_patterns(self, df: pd.DataFrame) -> Dict:
+        """Analyze seasonal patterns in freight movement"""
+        try:
+            seasonal = {}
+            
+            # Add month and season columns
+            df['Month'] = pd.to_datetime(df['Date']).dt.month
+            df['Season'] = pd.cut(df['Month'], 
+                                bins=[0, 3, 6, 9, 12], 
+                                labels=['Winter', 'Spring', 'Summer', 'Fall'])
+            
+            # Calculate seasonal averages
+            seasonal['value_by_season'] = df.groupby('Season')['VALUE'].mean().to_dict()
+            seasonal['weight_by_season'] = df.groupby('Season')['SHIPWT'].mean().to_dict()
+            
+            return seasonal
+        except Exception as e:
+            self.logger.error(f"Error in seasonal pattern analysis: {str(e)}")
+            return {}

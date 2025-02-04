@@ -6,3 +6,7 @@ plotly>=5.3.0
 tqdm>=4.62.0
 dask>=2023.1.0
 pyarrow>=7.0.0  # for parquet support
+scikit-learn>=1.0.0  # for machine learning components
+statsmodels>=0.13.0  # for time series analysis
+requests>=2.26.0  # for downloading data
+python-dotenv>=0.19.0  # for environment variables
