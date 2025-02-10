@@ -1,11 +1,9 @@
-"""
-Prepare and combine freight data for analysis
-"""
-
 import pandas as pd
 import numpy as np
 from pathlib import Path
 import logging
+from typing import Optional, Dict, Any
+import glob
 
 # Set up logging
 logging.basicConfig(
@@ -14,189 +12,126 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def combine_freight_data(data_dir: Path, output_dir: Path):
-    """Combine freight data from multiple years"""
-    try:
-        all_data = []
-        processed_years = set()
+class FreightDataPreprocessor:
+    def __init__(self, data_dir: Path, output_dir: Path):
+        """Initialize with data and output directories."""
+        self.data_dir = Path(data_dir)
+        self.output_dir = Path(output_dir)
+        self.output_dir.mkdir(exist_ok=True)
         
-        # Read and combine data from 2020-2024
-        for year in range(2020, 2025):
-            year_dir = data_dir / str(year)
-            if year_dir.exists() and year_dir.is_dir():
-                logger.info(f"Processing data for year {year}")
-                processed_years.add(year)
-                months_processed = 0
-                
-                # Process each month directory
-                for month_dir in year_dir.iterdir():
-                    if month_dir.is_dir():
-                        logger.info(f"Processing directory: {month_dir.name}")
-                        months_processed += 1
-                        files_processed = 0
-                        
-                        # Read only the monthly DOT files (exclude YTD files)
-                        for dot_num in range(1, 4):  # DOT1, DOT2, DOT3
-                            file_pattern = f"dot{dot_num}_*.csv"
-                            monthly_files = list(month_dir.glob(file_pattern))
-                            monthly_files = [f for f in monthly_files if 'ytd' not in f.name.lower()]
-                            
-                            for file_path in monthly_files:
-                                logger.info(f"Reading file: {file_path.name}")
-                                files_processed += 1
-                                try:
-                                    # Read CSV with specific data types and handle missing values
-                                    if dot_num == 1:
-                                        # DOT1 files
-                                        df = pd.read_csv(file_path, dtype={
-                                            'TRDTYPE': 'Int64',
-                                            'USASTATE': 'str',
-                                            'DEPE': 'str',
-                                            'DISAGMOT': 'Int64',
-                                            'MEXSTATE': 'str',
-                                            'CANPROV': 'str',
-                                            'COUNTRY': 'Int64',
-                                            'VALUE': 'float64',
-                                            'SHIPWT': 'float64',
-                                            'FREIGHT_CHARGES': 'float64',
-                                            'DF': 'float64',
-                                            'CONTCODE': 'str',
-                                            'MONTH': 'Int64',
-                                            'YEAR': 'Int64'
-                                        }, na_values=[''], keep_default_na=True)
-                                    elif dot_num == 2:
-                                        # DOT2 files have COMMODITY2 instead of DEPE
-                                        df = pd.read_csv(file_path, dtype={
-                                            'TRDTYPE': 'Int64',
-                                            'USASTATE': 'str',
-                                            'COMMODITY2': 'str',
-                                            'DISAGMOT': 'Int64',
-                                            'MEXSTATE': 'str',
-                                            'CANPROV': 'str',
-                                            'COUNTRY': 'Int64',
-                                            'VALUE': 'float64',
-                                            'SHIPWT': 'float64',
-                                            'FREIGHT_CHARGES': 'float64',
-                                            'DF': 'float64',
-                                            'CONTCODE': 'str',
-                                            'MONTH': 'Int64',
-                                            'YEAR': 'Int64'
-                                        }, na_values=[''], keep_default_na=True)
-                                        # Rename COMMODITY2 to DEPE for consistency
-                                        df = df.rename(columns={'COMMODITY2': 'DEPE'})
-                                    else:
-                                        # DOT3 files have different structure
-                                        df = pd.read_csv(file_path, dtype={
-                                            'TRDTYPE': 'Int64',
-                                            'DEPE': 'str',
-                                            'COMMODITY2': 'str',
-                                            'DISAGMOT': 'Int64',
-                                            'COUNTRY': 'Int64',
-                                            'VALUE': 'float64',
-                                            'SHIPWT': 'float64',
-                                            'FREIGHT_CHARGES': 'float64',
-                                            'DF': 'float64',
-                                            'CONTCODE': 'str',
-                                            'MONTH': 'Int64',
-                                            'YEAR': 'Int64'
-                                        }, na_values=[''], keep_default_na=True)
-                                        # Add empty columns for consistency
-                                        df['USASTATE'] = ''
-                                        df['MEXSTATE'] = ''
-                                        df['CANPROV'] = ''
-                                    
-                                    # Fill missing values
-                                    df['USASTATE'] = df['USASTATE'].fillna('')
-                                    df['DEPE'] = df['DEPE'].fillna('')
-                                    df['MEXSTATE'] = df['MEXSTATE'].fillna('')
-                                    df['CANPROV'] = df['CANPROV'].fillna('')
-                                    df['CONTCODE'] = df['CONTCODE'].fillna('')
-                                    
-                                    # Add metadata
-                                    df['Year'] = year
-                                    month_name = month_dir.name.split('2')[0].strip()
-                                    df['MonthName'] = month_name
-                                    df['DOT_Type'] = f"DOT{dot_num}"
-                                    
-                                    # Extract month number from directory name
-                                    month_map = {
-                                        'Jan': 1, 'Feb': 2, 'Mar': 3, 'April': 4,
-                                        'May': 5, 'June': 6, 'July': 7, 'August': 8,
-                                        'September': 9, 'October': 10, 'November': 11,
-                                        'December': 12
-                                    }
-                                    month_num = month_map.get(month_name, 1)  # Default to January if not found
-                                    df['Month'] = month_num
-                                    
-                                    # Create date from Month and Year
-                                    df['Date'] = pd.to_datetime(
-                                        df['Year'].astype(str) + '-' + 
-                                        df['Month'].astype(str).str.zfill(2) + '-01'
-                                    )
-                                    
-                                    # Calculate value density (handle division by zero)
-                                    df['ValueDensity'] = np.where(
-                                        df['SHIPWT'] > 0,
-                                        df['VALUE'] / df['SHIPWT'],
-                                        0
-                                    )
-                                    
-                                    all_data.append(df)
-                                except Exception as e:
-                                    logger.error(f"Error reading {file_path}: {str(e)}")
-                                    raise
-                        logger.info(f"Processed {files_processed} DOT files for {month_dir.name}")
-                logger.info(f"Processed {months_processed} months for year {year}")
-            else:
-                logger.warning(f"No data directory found for year {year}")
-        
-        if not all_data:
-            raise ValueError("No data files found")
+    def _process_single_file(self, file_path: Path) -> Optional[pd.DataFrame]:
+        """Process a single CSV file."""
+        try:
+            logger.info(f"Processing file: {file_path.name}")
             
-        # Validate data coverage
-        logger.info("\nData Coverage Summary:")
-        logger.info(f"Years processed: {sorted(list(processed_years))}")
-        missing_years = set(range(2020, 2025)) - processed_years
-        if missing_years:
-            logger.warning(f"Missing data for years: {sorted(list(missing_years))}")
-        
-        # Combine all data
-        combined_df = pd.concat(all_data, ignore_index=True)
-        
-        # Add derived features
-        combined_df['Season'] = pd.cut(combined_df['Month'], 
-                                     bins=[0, 3, 6, 9, 12], 
-                                     labels=['Winter', 'Spring', 'Summer', 'Fall'])
-        
-        # Save combined data
-        output_file = output_dir / "freight_data_combined.csv"
-        combined_df.to_csv(output_file, index=False)
-        logger.info(f"Combined data saved to {output_file}")
-        
-        # Print summary statistics
-        logger.info("\nData Summary:")
-        logger.info(f"Total records: {len(combined_df):,}")
-        logger.info(f"Date range: {combined_df['Date'].min()} to {combined_df['Date'].max()}")
-        logger.info(f"Transport modes: {', '.join(map(str, combined_df['DISAGMOT'].unique()))}")
-        logger.info(f"Total value: ${combined_df['VALUE'].sum():,.2f}")
-        logger.info(f"Total weight: {combined_df['SHIPWT'].sum():,.2f}")
-        logger.info("\nRecords by DOT type:")
-        for dot_type in combined_df['DOT_Type'].unique():
-            count = len(combined_df[combined_df['DOT_Type'] == dot_type])
-            logger.info(f"{dot_type}: {count:,} records")
-        
-        return combined_df
-        
-    except Exception as e:
-        logger.error(f"Error combining freight data: {str(e)}")
-        raise
+            # Try different encodings
+            encodings = ['utf-8', 'latin1', 'cp1252']
+            df = None
+            
+            for encoding in encodings:
+                try:
+                    df = pd.read_csv(file_path, encoding=encoding, low_memory=False)
+                    break
+                except UnicodeDecodeError:
+                    continue
+            
+            if df is None:
+                logger.error(f"Could not read {file_path.name} with any encoding")
+                return None
+            
+            # Clean column names
+            df.columns = df.columns.str.strip().str.upper()
+            
+            # Convert numeric columns
+            numeric_cols = ['VALUE', 'SHIPWT', 'FREIGHT_CHARGES']
+            for col in numeric_cols:
+                if col in df.columns:
+                    df[col] = pd.to_numeric(df[col], errors='coerce')
+            
+            # Fill NaN values
+            df['VALUE'] = df['VALUE'].fillna(0)
+            df['SHIPWT'] = df['SHIPWT'].fillna(0)
+            df['FREIGHT_CHARGES'] = df['FREIGHT_CHARGES'].fillna(0)
+            
+            # Add date column
+            if 'MONTH' in df.columns and 'YEAR' in df.columns:
+                df['Date'] = pd.to_datetime(df['YEAR'].astype(str) + '-' + df['MONTH'].astype(str).str.zfill(2) + '-01')
+            
+            return df
+            
+        except Exception as e:
+            logger.error(f"Error processing {file_path.name}: {str(e)}")
+            return None
+    
+    def _add_derived_metrics(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Add derived metrics to the DataFrame."""
+        try:
+            # Calculate value density (value per weight)
+            mask = (df['SHIPWT'] > 0) & (df['VALUE'] > 0)
+            df.loc[mask, 'value_density'] = df.loc[mask, 'VALUE'] / df.loc[mask, 'SHIPWT']
+            
+            # Calculate cost efficiency (freight charges per value)
+            mask = (df['VALUE'] > 0) & (df['FREIGHT_CHARGES'] > 0)
+            df.loc[mask, 'cost_per_value'] = df.loc[mask, 'FREIGHT_CHARGES'] / df.loc[mask, 'VALUE']
+            
+            return df
+            
+        except Exception as e:
+            logger.error(f"Error adding derived metrics: {str(e)}")
+            return df
+    
+    def process_year_data(self, year: str) -> Optional[pd.DataFrame]:
+        """Process all data files for a given year."""
+        try:
+            logger.info(f"Processing data for year {year}")
+            
+            # Get all CSV files for the year
+            year_dir = self.data_dir / year
+            all_dfs = []
+            
+            # Process each month
+            for month in range(1, 13):
+                month_dir = year_dir / f"{month:02d}"
+                if not month_dir.exists():
+                    continue
+                    
+                for file_path in month_dir.glob('*.csv'):
+                    df = self._process_single_file(file_path)
+                    if df is not None:
+                        all_dfs.append(df)
+            
+            if not all_dfs:
+                logger.warning(f"No data found for year {year}")
+                return None
+            
+            # Combine all DataFrames
+            combined_df = pd.concat(all_dfs, ignore_index=True)
+            
+            # Add derived metrics
+            combined_df = self._add_derived_metrics(combined_df)
+            
+            # Save to parquet
+            output_file = self.output_dir / f'freight_data_{year}_processed.parquet'
+            combined_df.to_parquet(output_file, index=False)
+            logger.info(f"Saved processed data to {output_file}")
+            
+            return combined_df
+            
+        except Exception as e:
+            logger.error(f"Error processing year {year}: {str(e)}")
+            return None
+
+def main():
+    """Main function to run the data preparation."""
+    base_dir = Path(__file__).parent.parent
+    processor = FreightDataPreprocessor(
+        data_dir=base_dir / 'data',
+        output_dir=base_dir / 'output'
+    )
+    
+    # Process each year
+    for year in range(2020, 2025):
+        processor.process_year_data(str(year))
 
 if __name__ == "__main__":
-    # Set up directories
-    base_dir = Path(__file__).parent.parent
-    data_dir = base_dir / "data"
-    output_dir = base_dir / "output"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Combine data
-    combine_freight_data(data_dir, output_dir)
+    main()

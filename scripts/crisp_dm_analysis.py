@@ -1,847 +1,261 @@
-"""
-CRISP-DM Framework Implementation for TransBorder Freight Analysis
-This module implements the Cross-Industry Standard Process for Data Mining methodology
-"""
-
 import pandas as pd
 import numpy as np
 from pathlib import Path
 import logging
-from typing import Dict, List, Tuple
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
+from typing import Dict, Any, List, Optional
 import json
-from statsmodels.tsa.seasonal import seasonal_decompose
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-from sklearn.metrics import r2_score, mean_squared_error
+from datetime import datetime
 
-class CRISPDMAnalysis:
-    def __init__(self, data_dir: Path):
-        self.data_dir = data_dir
-        self.output_dir = data_dir.parent / "output" / "crisp_dm_analysis"
-        self.output_dir.mkdir(parents=True, exist_ok=True)
-        self.logger = logging.getLogger(__name__)
-        self.data_coverage = None
-        
-        # Define business questions
-        self.business_questions = {
-            "Q1": "What are the major patterns and trends in freight movement across different transport modes from 2020-2024?",
-            "Q2": "How has operational efficiency evolved, and what are the key factors affecting it?",
-            "Q3": "What is the environmental impact of different transport modes, and how can it be optimized?",
-            "Q4": "What are the main safety concerns and risk factors in freight transportation?",
-            "Q5": "How have economic disruptions affected freight patterns and what are the recovery patterns?",
-            "Q6": "Which routes and transport modes show the highest efficiency and lowest environmental impact?",
-            "Q7": "What are the seasonal patterns and their implications for freight planning?"
-        }
+# Set up logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
-    def check_data_coverage(self) -> bool:
-        """
-        Check data coverage and warn about incomplete periods
-        Returns True if we have enough data for meaningful analysis
-        """
-        from prepare_data import validate_data_coverage
-        
-        self.data_coverage = validate_data_coverage(self.data_dir)
-        complete_periods = len(self.data_coverage["complete_periods"])
-        total_expected = 12 * 5  # 5 years * 12 months
-        coverage_ratio = complete_periods / total_expected
-        
-        self.logger.info(f"\nData Coverage Analysis:")
-        self.logger.info(f"Complete periods: {complete_periods} out of {total_expected} ({coverage_ratio:.1%})")
-        
-        if coverage_ratio < 0.5:
-            self.logger.warning("WARNING: Less than 50% data coverage. Analysis results may be unreliable.")
-            return False
-        elif coverage_ratio < 0.8:
-            self.logger.warning("CAUTION: Less than 80% data coverage. Some trends may be incomplete.")
-            return True
-        else:
-            self.logger.info("Good data coverage (>80%). Analysis should be reliable.")
-            return True
-            
-    def analyze_with_coverage_warning(self, df: pd.DataFrame) -> Dict:
-        """Analyze data with coverage warnings"""
-        results = {}
-        
-        # Add coverage warning to results
-        if self.data_coverage:
-            results["coverage_warning"] = {
-                "complete_periods": len(self.data_coverage["complete_periods"]),
-                "missing_periods": len(self.data_coverage["missing_periods"]),
-                "partial_periods": len(self.data_coverage["partial_periods"])
-            }
-        
-        # Perform analysis only if we have sufficient data
-        if self.check_data_coverage():
-            # Analyze trends
-            results["trends"] = self.analyze_trends(df)
-            results["efficiency"] = self.analyze_efficiency(df)
-            results["environmental"] = self.analyze_environmental_impact(df)
-            results["safety"] = self.analyze_safety_factors(df)
-            results["economic"] = self.analyze_economic_patterns(df)
-            results["routes"] = self.analyze_route_efficiency(df)
-            results["seasonal"] = self.analyze_seasonal_patterns(df)
-        else:
-            self.logger.warning("Insufficient data for comprehensive analysis. Please obtain more data.")
-            
-        return results
+class FreightAnalysis:
+    def __init__(self, output_dir: Path):
+        """Initialize analysis with output directory."""
+        self.output_dir = Path(output_dir)
+        self.results_dir = self.output_dir / 'analysis_results'
+        self.results_dir.mkdir(exist_ok=True)
 
-    def business_understanding(self) -> Dict:
-        """
-        Phase 1: Business Understanding
-        - Define business objectives
-        - Assess situation
-        - Determine data mining goals
-        - Produce project plan
-        """
-        try:
-            business_context = {
-                "objectives": {
-                    "primary": "Optimize freight transportation operations while minimizing environmental impact",
-                    "secondary": [
-                        "Identify operational inefficiencies",
-                        "Assess environmental impact",
-                        "Evaluate safety metrics",
-                        "Analyze economic disruptions",
-                        "Provide data-driven recommendations"
-                    ]
-                },
-                "success_criteria": {
-                    "business": [
-                        "Identification of cost-saving opportunities",
-                        "Reduction in environmental impact",
-                        "Improvement in safety metrics",
-                        "Enhanced operational efficiency"
-                    ],
-                    "technical": [
-                        "Accurate prediction of freight patterns",
-                        "Reliable identification of inefficiencies",
-                        "Comprehensive risk assessment",
-                        "Statistically significant findings"
-                    ]
-                },
-                "analytical_questions": self.business_questions
-            }
-            
-            # Save business understanding documentation
-            with open(self.output_dir / "business_understanding.json", 'w') as f:
-                json.dump(business_context, f, indent=2)
-            
-            return business_context
-            
-        except Exception as e:
-            self.logger.error(f"Error in business understanding phase: {str(e)}")
-            raise
-
-    def data_understanding(self, df: pd.DataFrame) -> Dict:
-        """
-        Phase 2: Data Understanding
-        - Collect initial data
-        - Describe data
-        - Explore data
-        - Verify data quality
-        """
-        try:
-            data_profile = {
-                "basic_stats": self._generate_basic_stats(df),
-                "data_quality": self._assess_data_quality(df),
-                "feature_analysis": self._analyze_features(df),
-                "temporal_patterns": self._analyze_temporal_patterns(df)
-            }
-            
-            # Save data understanding documentation
-            with open(self.output_dir / "data_understanding.json", 'w') as f:
-                json.dump(data_profile, f, indent=2)
-            
-            return data_profile
-            
-        except Exception as e:
-            self.logger.error(f"Error in data understanding phase: {str(e)}")
-            raise
-
-    def data_preparation(self, df: pd.DataFrame) -> pd.DataFrame:
-        """
-        Phase 3: Data Preparation
-        - Select data
-        - Clean data
-        - Construct data
-        - Integrate data
-        - Format data
-        """
-        try:
-            # Document preparation steps
-            prep_steps = {
-                "cleaning": [],
-                "feature_engineering": [],
-                "transformations": []
-            }
-            
-            # Handle missing values
-            if df.isnull().sum().any():
-                df = self._handle_missing_values(df)
-                prep_steps["cleaning"].append("Handled missing values")
-            
-            # Handle outliers
-            df = self._handle_outliers(df)
-            prep_steps["cleaning"].append("Handled outliers")
-            
-            # Feature engineering
-            df = self._engineer_features(df)
-            prep_steps["feature_engineering"].extend([
-                "Added efficiency metrics",
-                "Created temporal features",
-                "Calculated environmental indicators"
-            ])
-            
-            # Save preparation documentation
-            with open(self.output_dir / "data_preparation.json", 'w') as f:
-                json.dump(prep_steps, f, indent=2)
-            
-            return df
-            
-        except Exception as e:
-            self.logger.error(f"Error in data preparation phase: {str(e)}")
-            raise
-
-    def modeling(self, df: pd.DataFrame) -> Dict:
-        """
-        Phase 4: Modeling
-        - Select modeling techniques
-        - Generate test design
-        - Build models
-        - Assess models
-        """
-        try:
-            modeling_results = {}
-            
-            # Time series forecasting for freight patterns
-            modeling_results['freight_patterns'] = self._model_freight_patterns(df)
-            
-            # Efficiency prediction model
-            modeling_results['efficiency_prediction'] = self._model_efficiency(df)
-            
-            # Environmental impact modeling
-            modeling_results['environmental_impact'] = self._model_environmental_impact(df)
-            
-            # Risk assessment model
-            modeling_results['risk_assessment'] = self._model_risk_assessment(df)
-            
-            # Save modeling documentation
-            with open(self.output_dir / "modeling_results.json", 'w') as f:
-                json.dump(modeling_results, f, indent=2)
-            
-            return modeling_results
-            
-        except Exception as e:
-            self.logger.error(f"Error in modeling phase: {str(e)}")
-            raise
-
-    def evaluation(self, df: pd.DataFrame, modeling_results: Dict) -> Dict:
-        """
-        Phase 5: Evaluation
-        - Evaluate results
-        - Review process
-        - Determine next steps
-        """
-        try:
-            evaluation_results = {
-                "model_performance": self._evaluate_model_performance(modeling_results),
-                "business_objectives": self._evaluate_business_objectives(df, modeling_results),
-                "insights": self._generate_key_insights(df, modeling_results),
-                "recommendations": self._generate_recommendations(df, modeling_results)
-            }
-            
-            # Save evaluation documentation
-            with open(self.output_dir / "evaluation_results.json", 'w') as f:
-                json.dump(evaluation_results, f, indent=2)
-            
-            return evaluation_results
-            
-        except Exception as e:
-            self.logger.error(f"Error in evaluation phase: {str(e)}")
-            raise
-
-    def deployment(self, evaluation_results: Dict) -> Dict:
-        """
-        Phase 6: Deployment
-        - Plan deployment
-        - Plan monitoring and maintenance
-        - Produce final report
-        - Review project
-        """
-        try:
-            deployment_plan = {
-                "implementation_steps": self._create_implementation_plan(evaluation_results),
-                "monitoring_plan": self._create_monitoring_plan(evaluation_results),
-                "maintenance_schedule": self._create_maintenance_schedule(),
-                "final_report": self._generate_final_report(evaluation_results)
-            }
-            
-            # Save deployment documentation
-            with open(self.output_dir / "deployment_plan.json", 'w') as f:
-                json.dump(deployment_plan, f, indent=2)
-            
-            return deployment_plan
-            
-        except Exception as e:
-            self.logger.error(f"Error in deployment phase: {str(e)}")
-            raise
-
-    # Helper methods for data understanding
-    def _generate_basic_stats(self, df: pd.DataFrame) -> Dict:
-        """Generate basic statistical analysis of the data"""
-        stats = {
-            "record_count": len(df),
-            "feature_count": len(df.columns),
-            "numeric_features": df.select_dtypes(include=[np.number]).columns.tolist(),
-            "categorical_features": df.select_dtypes(include=['object']).columns.tolist(),
-            "time_range": {
-                "start": df['Date'].min().strftime('%Y-%m-%d'),
-                "end": df['Date'].max().strftime('%Y-%m-%d')
-            }
-        }
-        return stats
-
-    def _assess_data_quality(self, df: pd.DataFrame) -> Dict:
-        """Assess the quality of the data"""
-        quality = {
-            "missing_values": df.isnull().sum().to_dict(),
-            "duplicates": df.duplicated().sum(),
-            "outliers": self._detect_outliers(df)
-        }
-        return quality
-
-    def _analyze_features(self, df: pd.DataFrame) -> Dict:
-        """Analyze individual features"""
-        feature_analysis = {}
-        for col in df.columns:
-            if df[col].dtype in [np.number]:
-                feature_analysis[col] = {
-                    "mean": df[col].mean(),
-                    "median": df[col].median(),
-                    "std": df[col].std(),
-                    "min": df[col].min(),
-                    "max": df[col].max()
-                }
-            else:
-                feature_analysis[col] = {
-                    "unique_values": df[col].nunique(),
-                    "top_values": df[col].value_counts().head().to_dict()
-                }
-        return feature_analysis
-
-    def _analyze_temporal_patterns(self, df: pd.DataFrame) -> Dict:
-        """Analyze temporal patterns in the data"""
-        temporal = {
-            "yearly_patterns": df.groupby(df['Date'].dt.year)['VALUE'].sum().to_dict(),
-            "monthly_patterns": df.groupby(df['Date'].dt.month)['VALUE'].mean().to_dict(),
-            "seasonal_patterns": df.groupby(df['Date'].dt.quarter)['VALUE'].mean().to_dict()
-        }
-        return temporal
-
-    # Helper methods for data preparation
-    def _handle_missing_values(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Handle missing values in the dataset"""
-        # Numeric columns: interpolate
-        numeric_cols = df.select_dtypes(include=[np.number]).columns
-        df[numeric_cols] = df[numeric_cols].interpolate(method='time')
-        
-        # Categorical columns: forward fill
-        categorical_cols = df.select_dtypes(include=['object']).columns
-        df[categorical_cols] = df[categorical_cols].fillna(method='ffill')
-        
-        return df
-
-    def _handle_outliers(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Handle outliers in the dataset"""
-        numeric_cols = df.select_dtypes(include=[np.number]).columns
-        for col in numeric_cols:
-            Q1 = df[col].quantile(0.25)
-            Q3 = df[col].quantile(0.75)
-            IQR = Q3 - Q1
-            lower_bound = Q1 - 1.5 * IQR
-            upper_bound = Q3 + 1.5 * IQR
-            df[col] = df[col].clip(lower_bound, upper_bound)
-        return df
-
-    def _engineer_features(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Engineer new features"""
-        # Efficiency metrics
-        df['ValueDensity'] = df['VALUE'] / df['SHIPWT']
-        
-        # Temporal features
-        df['Year'] = df['Date'].dt.year
-        df['Month'] = df['Date'].dt.month
-        df['Quarter'] = df['Date'].dt.quarter
-        df['Season'] = df['Month'].map({
-            12:'Winter', 1:'Winter', 2:'Winter',
-            3:'Spring', 4:'Spring', 5:'Spring',
-            6:'Summer', 7:'Summer', 8:'Summer',
-            9:'Fall', 10:'Fall', 11:'Fall'
-        })
-        
-        return df
-
-    # Helper methods for modeling
-    def _model_freight_patterns(self, df: pd.DataFrame) -> Dict:
-        """Model freight patterns using time series analysis and forecasting"""
+    def analyze_freight_movements(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Analyze freight movement patterns (Objective 1)."""
         try:
             results = {}
             
-            # Analyze patterns by transport mode
-            for mode in df['DISAGMOT'].unique():
-                mode_data = df[df['DISAGMOT'] == mode].copy()
-                mode_data = mode_data.set_index('Date')
-                mode_data = mode_data.sort_index()
-                
-                # Decompose time series
-                decomposition = seasonal_decompose(mode_data['VALUE'], period=12)
-                
-                # Forecast future values
-                model = SARIMAX(mode_data['VALUE'], 
-                              order=(1, 1, 1), 
-                              seasonal_order=(1, 1, 1, 12))
-                results_sarima = model.fit()
-                forecast = results_sarima.forecast(steps=12)
-                
-                results[mode] = {
-                    'trend': decomposition.trend.dropna().tolist(),
-                    'seasonal': decomposition.seasonal.dropna().tolist(),
-                    'residual': decomposition.resid.dropna().tolist(),
-                    'forecast': forecast.tolist(),
-                    'forecast_conf_int': results_sarima.get_forecast(steps=12).conf_int().values.tolist()
-                }
+            # Analyze transport modes
+            mode_stats = df.groupby('DISAGMOT').agg({
+                'VALUE': ['sum', 'mean'],
+                'SHIPWT': ['sum', 'mean']
+            }).round(2)
+            
+            # Convert multi-index columns to string keys
+            mode_stats_dict = {}
+            for col in mode_stats.columns:
+                key = f"{col[0]}_{col[1]}"
+                mode_stats_dict[key] = mode_stats[col].to_dict()
+            results['transport_mode_analysis'] = mode_stats_dict
+            
+            # Analyze top routes
+            df['route'] = df['USASTATE'] + '-' + df['MEXSTATE'].fillna('') + df['CANPROV'].fillna('')
+            top_routes = df.groupby('route').agg({
+                'VALUE': 'sum',
+                'SHIPWT': 'sum'
+            }).sort_values('VALUE', ascending=False).head(10)
+            results['top_routes'] = top_routes.to_dict()
+            
+            # Analyze seasonal patterns
+            df['month'] = pd.to_datetime(df['Date']).dt.month
+            seasonal_patterns = df.groupby('month').agg({
+                'VALUE': 'sum',
+                'SHIPWT': 'sum'
+            }).round(2)
+            results['seasonal_patterns'] = seasonal_patterns.to_dict()
             
             return results
-            
         except Exception as e:
-            self.logger.error(f"Error in freight pattern modeling: {str(e)}")
-            raise
+            logger.error(f"Error analyzing freight movements: {str(e)}")
+            return {}
 
-    def _model_efficiency(self, df: pd.DataFrame) -> Dict:
-        """Model operational efficiency using machine learning"""
+    def analyze_operational_efficiency(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Analyze operational inefficiencies (Objective 2)."""
         try:
             results = {}
             
-            # Prepare features for efficiency modeling
-            features = ['SHIPWT', 'Year', 'Month', 'ValueDensity']
-            target = 'VALUE'
+            # Analyze value density across modes
+            mode_efficiency = df.groupby('DISAGMOT').agg({
+                'value_density': ['mean', 'std'],
+                'cost_per_value': ['mean', 'std']
+            }).round(4)
             
-            # Split data
-            X = df[features]
-            y = df[target]
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+            # Convert multi-index columns to string keys
+            mode_efficiency_dict = {}
+            for col in mode_efficiency.columns:
+                key = f"{col[0]}_{col[1]}"
+                mode_efficiency_dict[key] = mode_efficiency[col].to_dict()
+            results['mode_efficiency'] = mode_efficiency_dict
             
-            # Scale features
-            scaler = StandardScaler()
-            X_train_scaled = scaler.fit_transform(X_train)
-            X_test_scaled = scaler.transform(X_test)
-            
-            # Train model
-            model = RandomForestRegressor(n_estimators=100, random_state=42)
-            model.fit(X_train_scaled, y_train)
-            
-            # Get feature importance
-            feature_importance = dict(zip(features, model.feature_importances_))
-            
-            # Make predictions
-            y_pred = model.predict(X_test_scaled)
-            
-            results = {
-                'model_performance': {
-                    'r2_score': r2_score(y_test, y_pred),
-                    'mse': mean_squared_error(y_test, y_pred)
-                },
-                'feature_importance': feature_importance,
-                'efficiency_scores': {
-                    'mean_efficiency': df['ValueDensity'].mean(),
-                    'efficiency_trend': df.groupby('Year')['ValueDensity'].mean().to_dict()
-                }
-            }
+            # Analyze regional efficiency
+            regional_efficiency = df.groupby(['USASTATE']).agg({
+                'value_density': 'mean',
+                'cost_per_value': 'mean'
+            }).round(4)
+            results['regional_efficiency'] = regional_efficiency.to_dict()
             
             return results
-            
         except Exception as e:
-            self.logger.error(f"Error in efficiency modeling: {str(e)}")
-            raise
+            logger.error(f"Error analyzing operational efficiency: {str(e)}")
+            return {}
 
-    def _model_environmental_impact(self, df: pd.DataFrame) -> Dict:
-        """Model environmental impact using statistical analysis"""
+    def analyze_environmental_impact(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Analyze environmental impact (Objective 3)."""
         try:
             results = {}
             
-            # Calculate emissions by transport mode
-            emissions_factors = {
-                'Truck': 0.2,  # kg CO2 per ton-mile
-                'Rail': 0.05,
-                'Water': 0.03,
-                'Air': 0.8
+            # Calculate emissions by transport mode (simplified model)
+            # Using basic emission factors (for demonstration)
+            emission_factors = {
+                1: 2.5,  # Truck (kg CO2 per ton-km)
+                2: 0.9,  # Rail
+                3: 12.0, # Air
+                4: 0.4   # Water
             }
             
-            df['EmissionsEstimate'] = df.apply(
-                lambda row: row['SHIPWT'] * emissions_factors.get(row['DISAGMOT'], 0.2),
+            df['estimated_emissions'] = df.apply(
+                lambda x: x['SHIPWT'] * emission_factors.get(x['DISAGMOT'], 0),
                 axis=1
             )
             
-            # Analyze environmental impact by mode
-            for mode in df['DISAGMOT'].unique():
-                mode_data = df[df['DISAGMOT'] == mode]
-                
-                results[mode] = {
-                    'total_emissions': mode_data['EmissionsEstimate'].sum(),
-                    'emissions_per_value': (mode_data['EmissionsEstimate'].sum() / 
-                                         mode_data['VALUE'].sum()),
-                    'emissions_trend': mode_data.groupby('Year')['EmissionsEstimate'].mean().to_dict(),
-                    'efficiency_score': (mode_data['VALUE'].sum() / 
-                                      mode_data['EmissionsEstimate'].sum())
-                }
+            mode_emissions = df.groupby('DISAGMOT').agg({
+                'estimated_emissions': ['sum', 'mean'],
+                'SHIPWT': 'sum'
+            }).round(2)
             
-            # Calculate overall environmental metrics
-            results['overall'] = {
-                'total_emissions': df['EmissionsEstimate'].sum(),
-                'emissions_intensity': df['EmissionsEstimate'].sum() / df['VALUE'].sum(),
-                'yearly_trend': df.groupby('Year')['EmissionsEstimate'].sum().to_dict()
-            }
+            # Convert multi-index columns to string keys
+            mode_emissions_dict = {}
+            for col in mode_emissions.columns:
+                key = f"{col[0]}_{col[1]}" if isinstance(col, tuple) else col
+                mode_emissions_dict[key] = mode_emissions[col].to_dict()
+            results['emissions_by_mode'] = mode_emissions_dict
             
             return results
-            
         except Exception as e:
-            self.logger.error(f"Error in environmental impact modeling: {str(e)}")
-            raise
+            logger.error(f"Error analyzing environmental impact: {str(e)}")
+            return {}
 
-    def _model_risk_assessment(self, df: pd.DataFrame) -> Dict:
-        """Model risk assessment using statistical analysis and machine learning"""
+    def analyze_safety_risks(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Analyze safety and risks (Objective 4)."""
         try:
             results = {}
             
-            # Calculate value at risk by mode and route
-            df['ValueAtRisk'] = df['VALUE'] * df['ValueDensity']
+            # Analyze high-value shipments
+            value_threshold = df['VALUE'].quantile(0.95)
+            high_value_shipments = df[df['VALUE'] >= value_threshold]
             
-            # Identify high-risk routes
-            route_risk = df.groupby(['USASTATE', 'DISAGMOT']).agg({
-                'ValueAtRisk': ['mean', 'std'],
+            risk_analysis = {
+                'high_value_routes': high_value_shipments.groupby('route')['VALUE'].sum().nlargest(10).to_dict(),
+                'high_value_modes': high_value_shipments.groupby('DISAGMOT')['VALUE'].sum().to_dict()
+            }
+            
+            results['risk_analysis'] = risk_analysis
+            return results
+        except Exception as e:
+            logger.error(f"Error analyzing safety risks: {str(e)}")
+            return {}
+
+    def analyze_economic_disruptions(self, df: pd.DataFrame) -> Dict[str, Any]:
+        """Analyze economic disruptions (Objective 5)."""
+        try:
+            results = {}
+            
+            # Analyze value trends over time
+            value_trends = df.groupby('Date').agg({
+                'VALUE': 'sum',
+                'SHIPWT': 'sum'
+            }).round(2)
+            
+            # Convert datetime index to string
+            value_trends.index = value_trends.index.astype(str)
+            results['value_trends'] = value_trends.to_dict()
+            
+            # Analyze trade balance
+            trade_balance = df.groupby(['Date', 'TRDTYPE']).agg({
                 'VALUE': 'sum'
-            }).reset_index()
+            }).round(2)
             
-            # Calculate risk scores
-            route_risk['RiskScore'] = (route_risk['ValueAtRisk']['std'] / 
-                                     route_risk['ValueAtRisk']['mean'])
+            # Convert multi-index to string
+            trade_balance_dict = {}
+            for idx, val in trade_balance['VALUE'].items():
+                key = f"{idx[0]}_{idx[1]}"
+                trade_balance_dict[key] = val
+            results['trade_balance'] = trade_balance_dict
             
-            # Identify risk factors
-            risk_factors = {
-                'high_value_routes': route_risk.nlargest(10, ('VALUE', 'sum')).to_dict('records'),
-                'high_risk_routes': route_risk.nlargest(10, 'RiskScore').to_dict('records'),
-                'risk_by_mode': df.groupby('DISAGMOT')['ValueAtRisk'].agg([
-                    'mean', 'std', 'min', 'max'
-                ]).to_dict('index')
-            }
+            return results
+        except Exception as e:
+            logger.error(f"Error analyzing economic disruptions: {str(e)}")
+            return {}
+
+    def generate_recommendations(self, all_results: Dict[str, Any]) -> List[str]:
+        """Generate data-driven recommendations (Objective 6)."""
+        recommendations = []
+        
+        try:
+            # Movement pattern recommendations
+            if 'transport_mode_analysis' in all_results:
+                mode_data = all_results['transport_mode_analysis']
+                recommendations.append("Optimize modal split based on value density analysis")
             
-            # Seasonal risk analysis
-            seasonal_risk = df.groupby(['Season', 'DISAGMOT'])['ValueAtRisk'].agg([
-                'mean', 'std'
-            ]).reset_index()
+            # Efficiency recommendations
+            if 'mode_efficiency' in all_results:
+                efficiency_data = all_results['mode_efficiency']
+                recommendations.append("Focus on improving efficiency in high-cost routes")
             
+            # Environmental recommendations
+            if 'emissions_by_mode' in all_results:
+                emissions_data = all_results['emissions_by_mode']
+                recommendations.append("Consider shifting to lower-emission transport modes where feasible")
+            
+            # Add more specific recommendations based on analysis results
+            
+        except Exception as e:
+            logger.error(f"Error generating recommendations: {str(e)}")
+        
+        return recommendations
+
+    def analyze_year(self, year: str) -> Dict[str, Any]:
+        """Analyze data for a specific year."""
+        try:
+            # Load data
+            file_path = self.output_dir / f'freight_data_{year}_processed.parquet'
+            if not file_path.exists():
+                logger.error(f"Data file not found: {file_path}")
+                return {}
+            
+            df = pd.read_parquet(file_path)
+            
+            # Run analyses
             results = {
-                'risk_factors': risk_factors,
-                'seasonal_risk': seasonal_risk.to_dict('records'),
-                'risk_metrics': {
-                    'total_value_at_risk': df['ValueAtRisk'].sum(),
-                    'risk_concentration': df.groupby('DISAGMOT')['ValueAtRisk'].sum().to_dict()
-                }
+                'year': year,
+                'freight_movements': self.analyze_freight_movements(df),
+                'operational_efficiency': self.analyze_operational_efficiency(df),
+                'environmental_impact': self.analyze_environmental_impact(df),
+                'safety_risks': self.analyze_safety_risks(df),
+                'economic_disruptions': self.analyze_economic_disruptions(df)
             }
+            
+            # Generate recommendations
+            results['recommendations'] = self.generate_recommendations(results)
+            
+            # Save results
+            output_file = self.results_dir / f'analysis_{year}.json'
+            with open(output_file, 'w') as f:
+                json.dump(results, f, indent=2)
             
             return results
             
         except Exception as e:
-            self.logger.error(f"Error in risk assessment modeling: {str(e)}")
-            raise
+            logger.error(f"Error analyzing year {year}: {str(e)}")
+            return {}
 
-    def _evaluate_model_performance(self, modeling_results: Dict) -> Dict:
-        """Evaluate performance of all models"""
-        try:
-            evaluation = {
-                'freight_patterns': {
-                    'forecast_accuracy': self._evaluate_forecast_accuracy(
-                        modeling_results['freight_patterns']
-                    ),
-                    'pattern_strength': self._evaluate_pattern_strength(
-                        modeling_results['freight_patterns']
-                    )
-                },
-                'efficiency_model': {
-                    'model_metrics': modeling_results['efficiency_prediction']['model_performance'],
-                    'feature_importance': modeling_results['efficiency_prediction']['feature_importance']
-                },
-                'environmental_impact': {
-                    'impact_assessment': self._evaluate_environmental_impact(
-                        modeling_results['environmental_impact']
-                    )
-                },
-                'risk_assessment': {
-                    'risk_metrics': self._evaluate_risk_metrics(
-                        modeling_results['risk_assessment']
-                    )
-                }
-            }
-            
-            return evaluation
-            
-        except Exception as e:
-            self.logger.error(f"Error in model performance evaluation: {str(e)}")
-            raise
+def main():
+    """Main function to run the analysis."""
+    base_dir = Path(__file__).parent.parent
+    analyzer = FreightAnalysis(base_dir / 'output')
+    
+    all_years_results = {}
+    for year in range(2020, 2025):
+        logger.info(f"Analyzing year {year}")
+        year_results = analyzer.analyze_year(str(year))
+        if year_results:
+            all_years_results[str(year)] = year_results
+    
+    # Save combined results
+    output_file = base_dir / 'output' / 'all_years_analysis.json'
+    with open(output_file, 'w') as f:
+        json.dump(all_years_results, f, indent=2)
+    logger.info("Analysis complete!")
 
-    def _evaluate_business_objectives(self, df: pd.DataFrame, modeling_results: Dict) -> Dict:
-        """Evaluate achievement of business objectives"""
-        try:
-            evaluation = {
-                'operational_efficiency': {
-                    'improvement_opportunities': self._identify_efficiency_improvements(
-                        modeling_results['efficiency_prediction']
-                    ),
-                    'cost_saving_potential': self._calculate_cost_savings(
-                        modeling_results['efficiency_prediction']
-                    )
-                },
-                'environmental_impact': {
-                    'emission_reduction_potential': self._calculate_emission_reduction(
-                        modeling_results['environmental_impact']
-                    ),
-                    'sustainability_metrics': self._evaluate_sustainability(
-                        modeling_results['environmental_impact']
-                    )
-                },
-                'risk_mitigation': {
-                    'high_risk_areas': self._identify_risk_areas(
-                        modeling_results['risk_assessment']
-                    ),
-                    'mitigation_strategies': self._develop_risk_strategies(
-                        modeling_results['risk_assessment']
-                    )
-                },
-                'economic_performance': {
-                    'value_optimization': self._analyze_value_optimization(
-                        modeling_results['freight_patterns']
-                    ),
-                    'growth_opportunities': self._identify_growth_areas(
-                        modeling_results['freight_patterns']
-                    )
-                }
-            }
-            
-            return evaluation
-            
-        except Exception as e:
-            self.logger.error(f"Error in business objective evaluation: {str(e)}")
-            raise
-
-    def _generate_key_insights(self, df: pd.DataFrame, modeling_results: Dict) -> List[Dict]:
-        """Generate key insights from the analysis"""
-        try:
-            insights = []
-            
-            # Operational insights
-            insights.extend(self._generate_operational_insights(
-                modeling_results['efficiency_prediction']
-            ))
-            
-            # Environmental insights
-            insights.extend(self._generate_environmental_insights(
-                modeling_results['environmental_impact']
-            ))
-            
-            # Risk insights
-            insights.extend(self._generate_risk_insights(
-                modeling_results['risk_assessment']
-            ))
-            
-            # Economic insights
-            insights.extend(self._generate_economic_insights(
-                modeling_results['freight_patterns']
-            ))
-            
-            return insights
-            
-        except Exception as e:
-            self.logger.error(f"Error generating key insights: {str(e)}")
-            raise
-
-    def _generate_recommendations(self, df: pd.DataFrame, modeling_results: Dict) -> List[Dict]:
-        """Generate actionable recommendations"""
-        try:
-            recommendations = []
-            
-            # Operational recommendations
-            recommendations.extend(self._generate_operational_recommendations(
-                modeling_results['efficiency_prediction']
-            ))
-            
-            # Environmental recommendations
-            recommendations.extend(self._generate_environmental_recommendations(
-                modeling_results['environmental_impact']
-            ))
-            
-            # Risk recommendations
-            recommendations.extend(self._generate_risk_recommendations(
-                modeling_results['risk_assessment']
-            ))
-            
-            # Economic recommendations
-            recommendations.extend(self._generate_economic_recommendations(
-                modeling_results['freight_patterns']
-            ))
-            
-            return recommendations
-            
-        except Exception as e:
-            self.logger.error(f"Error generating recommendations: {str(e)}")
-            raise
-
-    def analyze_trends(self, df: pd.DataFrame) -> Dict:
-        """Analyze major patterns and trends in freight movement"""
-        try:
-            trends = {}
-            
-            # Analyze transport mode trends
-            mode_trends = df.groupby(['Date', 'DISAGMOT']).agg({
-                'VALUE': 'sum',
-                'SHIPWT': 'sum'
-            }).reset_index()
-            
-            # Calculate monthly totals and market share by mode
-            monthly_by_mode = mode_trends.pivot_table(
-                index='Date',
-                columns='DISAGMOT',
-                values=['VALUE', 'SHIPWT'],
-                aggfunc='sum'
-            ).fillna(0)
-            
-            # Calculate growth rates
-            trends['growth_rates'] = {
-                'value': monthly_by_mode['VALUE'].pct_change().mean().to_dict(),
-                'weight': monthly_by_mode['SHIPWT'].pct_change().mean().to_dict()
-            }
-            
-            return trends
-        except Exception as e:
-            self.logger.error(f"Error in trend analysis: {str(e)}")
-            return {}
-            
-    def analyze_efficiency(self, df: pd.DataFrame) -> Dict:
-        """Analyze operational efficiency"""
-        try:
-            efficiency = {}
-            
-            # Calculate value per shipment weight
-            df['efficiency_ratio'] = df['VALUE'] / df['SHIPWT'].where(df['SHIPWT'] > 0, 0)
-            
-            # Analyze efficiency by transport mode
-            efficiency['by_mode'] = df.groupby('DISAGMOT').agg({
-                'efficiency_ratio': 'mean',
-                'FREIGHT_CHARGES': 'mean'
-            }).to_dict()
-            
-            return efficiency
-        except Exception as e:
-            self.logger.error(f"Error in efficiency analysis: {str(e)}")
-            return {}
-            
-    def analyze_environmental_impact(self, df: pd.DataFrame) -> Dict:
-        """Analyze environmental impact of different transport modes"""
-        try:
-            impact = {}
-            
-            # Calculate total weight moved by each mode
-            impact['weight_by_mode'] = df.groupby('DISAGMOT')['SHIPWT'].sum().to_dict()
-            
-            # Calculate average distance factor (DF) by mode
-            impact['distance_factor'] = df.groupby('DISAGMOT')['DF'].mean().to_dict()
-            
-            return impact
-        except Exception as e:
-            self.logger.error(f"Error in environmental impact analysis: {str(e)}")
-            return {}
-            
-    def analyze_safety_factors(self, df: pd.DataFrame) -> Dict:
-        """Analyze safety concerns and risk factors"""
-        try:
-            safety = {}
-            
-            # Analyze high-value shipments
-            high_value_threshold = df['VALUE'].quantile(0.95)
-            high_value_shipments = df[df['VALUE'] >= high_value_threshold]
-            
-            safety['high_value_analysis'] = {
-                'threshold': high_value_threshold,
-                'count': len(high_value_shipments),
-                'modes': high_value_shipments['DISAGMOT'].value_counts().to_dict()
-            }
-            
-            return safety
-        except Exception as e:
-            self.logger.error(f"Error in safety analysis: {str(e)}")
-            return {}
-            
-    def analyze_economic_patterns(self, df: pd.DataFrame) -> Dict:
-        """Analyze economic disruptions and recovery patterns"""
-        try:
-            economic = {}
-            
-            # Calculate monthly total value
-            monthly_value = df.groupby('Date')['VALUE'].sum()
-            
-            # Detect significant changes
-            economic['value_changes'] = {
-                'monthly_growth': monthly_value.pct_change().describe().to_dict(),
-                'volatility': monthly_value.std() / monthly_value.mean()
-            }
-            
-            return economic
-        except Exception as e:
-            self.logger.error(f"Error in economic pattern analysis: {str(e)}")
-            return {}
-            
-    def analyze_route_efficiency(self, df: pd.DataFrame) -> Dict:
-        """Analyze route efficiency and environmental impact"""
-        try:
-            routes = {}
-            
-            # Calculate efficiency metrics by route
-            route_metrics = df.groupby(['USASTATE', 'MEXSTATE', 'CANPROV']).agg({
-                'VALUE': 'sum',
-                'SHIPWT': 'sum',
-                'FREIGHT_CHARGES': 'mean',
-                'DF': 'mean'
-            })
-            
-            # Identify top efficient routes
-            route_metrics['value_per_weight'] = route_metrics['VALUE'] / route_metrics['SHIPWT']
-            routes['top_efficient'] = route_metrics.nlargest(10, 'value_per_weight').to_dict()
-            
-            return routes
-        except Exception as e:
-            self.logger.error(f"Error in route efficiency analysis: {str(e)}")
-            return {}
-            
-    def analyze_seasonal_patterns(self, df: pd.DataFrame) -> Dict:
-        """Analyze seasonal patterns in freight movement"""
-        try:
-            seasonal = {}
-            
-            # Add month and season columns
-            df['Month'] = pd.to_datetime(df['Date']).dt.month
-            df['Season'] = pd.cut(df['Month'], 
-                                bins=[0, 3, 6, 9, 12], 
-                                labels=['Winter', 'Spring', 'Summer', 'Fall'])
-            
-            # Calculate seasonal averages
-            seasonal['value_by_season'] = df.groupby('Season')['VALUE'].mean().to_dict()
-            seasonal['weight_by_season'] = df.groupby('Season')['SHIPWT'].mean().to_dict()
-            
-            return seasonal
-        except Exception as e:
-            self.logger.error(f"Error in seasonal pattern analysis: {str(e)}")
-            return {}
+if __name__ == "__main__":
+    main()
