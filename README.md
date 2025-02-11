@@ -28,10 +28,10 @@ TransBorderFreight_Analysis/
 ## Analysis Components
 
 ### 1. Data Preparation
-- Organized raw data files by year and month
-- Cleaned and standardized data formats
-- Added derived metrics like value density and cost efficiency
-- Converted processed data to efficient parquet format
+- Organized raw data files by year and month.
+- Cleaned and standardized data formats.
+- Added derived metrics like value density and cost efficiency.
+- Converted processed data to efficient parquet format.
 
 ### 2. Movement Pattern Analysis
 - Analyzed transport mode distributions
