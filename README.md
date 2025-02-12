@@ -58,6 +58,9 @@ TransBorderFreight_Analysis/
 - Analyzed trade balance patterns
 - Studied regional economic impacts
 
+- Business Questions
+- 
+
 ## Tools and Dependencies
 - Python 3.8+
 - pandas: Data manipulation and analysis
