@@ -1,21 +1,41 @@
-# TransBorder Freight Analysis Project
+# TransBorder Freight Analysis (2020-2024)
 
 ## Project Overview
-This project analyzes transportation data from the Bureau of Transportation Statistics (BTS) to uncover insights related to efficiency, safety, and environmental impacts of freight transportation. Using the CRISP-DM methodology, we aim to identify inefficiencies, recognize patterns, and propose actionable solutions to improve the performance and sustainability of transportation systems.
+This project analyzes cross-border freight transportation data from 2020 to 2024, focusing on:
+- Operational efficiency and cost optimization
+- Environmental sustainability and emissions reduction
+- Safety and risk management
+- Economic performance and trade patterns
+
+## Key Features
+- Interactive dashboards showing freight movement patterns
+- Data-driven recommendations for optimization
+- Year-over-year trend analysis
+- Modal comparison and efficiency metrics
+
+## Setup
+1. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+2. Run the analysis:
+```bash
+python scripts/crisp_dm_analysis.py
+```
+
+3. View dashboards:
+```bash
+python scripts/visualize_analysis.py
+```
+Access dashboards at:
+- Main Dashboard: http://127.0.0.1:8050
+- Recommendations: http://127.0.0.1:8051
 
 ## Project Structure
-```
-TransBorderFreight_Analysis/
-├── data/               # Raw data files organized by year and month
-├── output/            # Processed data and analysis results
-│   ├── analysis_results/  # Detailed analysis for each year
-│   └── freight_data_*_processed.parquet  # Processed data files
-├── scripts/           # Analysis scripts
-│   ├── prepare_data.py     # Data preprocessing
-│   ├── crisp_dm_analysis.py  # Main analysis script
-│   └── organize_data.py    # Data organization utilities
-└── README.md          # Project documentation
-```
+- `scripts/`: Analysis and visualization code
+- `data/`: Raw freight data (not included in repo)
+- `output/`: Analysis results and processed data
 
 ## Key Objectives
 1. **Freight Movement Patterns**: Analyze trends in volume, routing, and transportation modes
