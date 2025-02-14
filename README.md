@@ -9,6 +9,25 @@ This project analyzes cross-border freight transportation data from 2020 to 2024
 - Year-over-year trend analysis
 - Modal comparison and efficiency metrics
 
+## Setup and Usage
+1. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+2. Run the analysis:
+```bash
+python scripts/process_freight_data.py
+```
+
+Results will be saved to `output/freight_analysis_results.json`
+
+## Project Structure
+- `scripts/process_freight_data.py`: Main analysis script
+- `data/`: Raw freight data files (2020-2024)
+- `output/`: Analysis results and insights
+- `presentations/`: Analysis presentations and templates
+
 ## Key Business Questions & Answers
 
 ### Q1: Major Trends in Freight Value and Volume
@@ -114,29 +133,11 @@ Current modal split suggests:
 - Implement real-time monitoring of key corridors
 - Develop predictive analytics for capacity planning
 
-## Setup
-1. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-2. Run the analysis:
-```bash
-python scripts/crisp_dm_analysis.py
-```
-
-3. View dashboards:
-```bash
-python scripts/visualize_analysis.py
-```
-Access dashboards at:
-- Main Dashboard: http://127.0.0.1:8050
-- Recommendations: http://127.0.0.1:8051
-
-## Project Structure
-- `scripts/`: Analysis and visualization code
-- `data/`: Raw freight data (not included in repo)
-- `output/`: Analysis results and processed data
+## Dependencies
+- Python 3.8+
+- pandas: Data manipulation and analysis
+- numpy: Numerical computations
+- logging: Execution logging
 
 ## Key Objectives
 1. **Freight Movement Patterns**: Analyze trends in volume, routing, and transportation modes
