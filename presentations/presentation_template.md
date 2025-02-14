@@ -2,58 +2,75 @@
 ## Presentation Template
 
 ### Slide 1: Title
-- Title: TransBorder Freight Analysis (2020-2024)
-- Subtitle: Data-Driven Insights for Transportation Optimization
-- Date: February 2025
+- **Title:** TransBorder Freight Analysis (2020-2024)
+- **Subtitle:** Data-Driven Insights for Transportation Optimization
+- **Date:** February 2025
+- **Key Message:** Comprehensive analysis of cross-border freight patterns and optimization opportunities
 
-### Slide 2: Project Overview
-- Comprehensive analysis of cross-border freight data (2020-2024)
-- Focus areas:
-  * Transportation efficiency
-  * Environmental sustainability
-  * Safety and risk management
-- Data-driven approach to optimization
+### Slide 2: Executive Summary
+- Analysis of freight data from 2020-2024
+- Focus on efficiency, sustainability, and safety
+- Key findings:
+  * Maritime dominance (65% of value)
+  * Rail as optimal balance of efficiency and sustainability
+  * Significant seasonal variations
+  * Major trade corridor opportunities
 
-### Slide 3: Key Findings - Transport Modes
-[Insert Pie Chart]
-- Vessel transport dominates (65.0%)
-- Mail services (12.9%)
-- Rail (7.5%)
-- Other modes (14.6%)
-Key Insight: Maritime infrastructure critical for trade
+### Slide 3: Transport Mode Distribution
+[Pie Chart: Modal Split]
+- Vessel: 65.0%
+- Mail: 12.9%
+- Rail: 7.5%
+- Pipeline: 6.8%
+- Other: 3.7%
+- Road: 3.4%
+- Unknown: 0.7%
+- Air: <0.1%
 
 ### Slide 4: Efficiency Analysis
-[Insert Bar Chart - Value per Ton]
+[Bar Chart: Value per Ton]
 Most Efficient Modes:
 1. Road: $1,123.06/ton
 2. Rail: $83.06/ton
 3. Air: $78.66/ton
-Opportunity: Optimize intermodal connections
+
+Key Insights:
+- High value-density in road transport
+- Rail offers balanced efficiency
+- Opportunity for intermodal optimization
 
 ### Slide 5: Environmental Impact
-[Insert Bar Chart - CO2 Emissions]
-CO2 Emissions by Mode:
-- Air: 1.53 kg/ton
-- Road: 0.16 kg/ton
-- Rail: 0.02 kg/ton
-- Pipeline: 0.01 kg/ton
-Key Finding: Rail offers best efficiency-sustainability balance
+[Bar Chart: CO2 Emissions]
+Emissions by Mode (kg CO2/ton):
+- Air: 1.53
+- Road: 0.16
+- Rail: 0.02
+- Pipeline: 0.01
 
-### Slide 6: Trade Corridors
-[Insert Map]
-Top 3 Trade Corridors:
+Environmental Leadership:
+- Rail and pipeline are most sustainable
+- Opportunities for emission reduction
+- Green corridor development potential
+
+### Slide 6: Major Trade Corridors
+[Map Visualization]
+Top Trade Corridors:
 1. Texas: $911.3B
 2. Michigan: $440.5B
 3. California: $315.2B
-Focus: Infrastructure investment in these regions
+
+Investment Priorities:
+- Port infrastructure
+- Intermodal connections
+- Capacity expansion
 
 ### Slide 7: Seasonal Patterns
-[Insert Line Graph]
-- Peak activity: May
-- Implications:
-  * Capacity constraints
-  * Resource allocation
-  * Infrastructure planning
+[Line Graph: Monthly Trends]
+Key Findings:
+- Peak activity in May
+- Seasonal capacity constraints
+- Infrastructure planning needs
+- Resource allocation opportunities
 
 ### Slide 8: Strategic Recommendations
 1. Infrastructure Development
@@ -71,21 +88,29 @@ Focus: Infrastructure investment in these regions
    - Enhance safety measures
    - Specialized handling
 
-### Slide 9: Next Steps
-Implementation Priorities:
-1. Port infrastructure expansion
-2. Intermodal connection improvements
-3. Emission reduction initiatives
-4. Data monitoring systems
+### Slide 9: Implementation Roadmap
+Phase 1: Immediate Actions (0-6 months)
+- Port capacity assessment
+- Emission reduction planning
+- Data system enhancement
 
-Expected Benefits:
-- Improved efficiency
-- Reduced emissions
-- Enhanced safety
-- Better resource utilization
+Phase 2: Medium-term (6-18 months)
+- Infrastructure upgrades
+- Modal shift incentives
+- Corridor development
 
-Success Metrics:
-- Modal shift to sustainable options
-- Reduced CO2 emissions
-- Improved value per ton
-- Decreased congestion
+Phase 3: Long-term (18+ months)
+- System integration
+- Technology adoption
+- Performance monitoring
+
+### Slide 10: Q&A and Discussion
+Contact Information:
+- Project Lead
+- Technical Team
+- Implementation Support
+
+Next Steps:
+- Stakeholder feedback
+- Implementation planning
+- Progress monitoring
