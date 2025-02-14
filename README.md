@@ -30,6 +30,15 @@ Results will be saved to `output/freight_analysis_results.json`
 
 ## Key Business Questions & Answers
 
+##**QUESTIONS**
+What are the major trends in freight value and volume?
+How do different modes compare in terms of cost-efficiency and environmental sustainability?
+What are the key seasonal patterns and their implications?
+Which trade corridors show the highest growth and value?
+What are the safety risks and environmental impacts across transport modes?
+How is the modal split evolving and what are the infrastructure implications?
+What strategic recommendations can be made for improvement?
+
 ### Q1: Major Trends in Freight Value and Volume
 - Vessel transport dominates with 65.0% of total freight value
 - Mail services handle 12.9% of value
