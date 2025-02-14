@@ -1,0 +1,2940 @@
+{
+  "business_questions": [
+    "What are the major trends in freight value and volume across transport modes?",
+    "Which transport modes are most cost-efficient and environmentally sustainable?",
+    "What are the seasonal patterns in freight movement and their implications?",
+    "Which trade corridors show the highest growth potential?",
+    "What are the safety risks and environmental impacts by transport mode?",
+    "How has modal split evolved and what are the infrastructure implications?",
+    "What strategic recommendations can improve freight efficiency and sustainability?"
+  ],
+  "analysis": {
+    "2020": {
+      "mode_analysis": {
+        "metrics": {
+          "AIR": {
+            "value_sum": 732584460.0,
+            "value_mean": 47918.92,
+            "shipment_count": 15288,
+            "weight_sum": 1476.0,
+            "weight_mean": 0.1
+          },
+          "MAIL": {
+            "value_sum": 3806179011972.0,
+            "value_mean": 2925678.51,
+            "shipment_count": 1300956,
+            "weight_sum": 2488959431076.0,
+            "weight_mean": 1913177.26
+          },
+          "OTHER": {
+            "value_sum": 1183843563762.0,
+            "value_mean": 3147113.96,
+            "shipment_count": 376168,
+            "weight_sum": 7629612264.0,
+            "weight_mean": 20282.46
+          },
+          "PIPELINE": {
+            "value_sum": 1475387387232.0,
+            "value_mean": 59271548.58,
+            "shipment_count": 24892,
+            "weight_sum": 4370773654776.0,
+            "weight_mean": 175589492.8
+          },
+          "RAIL": {
+            "value_sum": 1894580187504.0,
+            "value_mean": 5117969.51,
+            "shipment_count": 370182,
+            "weight_sum": 5087443634454.0,
+            "weight_mean": 13743087.55
+          },
+          "ROAD": {
+            "value_sum": 1209944268174.0,
+            "value_mean": 580188.23,
+            "shipment_count": 2085434,
+            "weight_sum": 8350457034.0,
+            "weight_mean": 4004.18
+          },
+          "UNKNOWN": {
+            "value_sum": 136657520634.0,
+            "value_mean": 2953224.72,
+            "shipment_count": 46274,
+            "weight_sum": 74423475720.0,
+            "weight_mean": 1608321.64
+          },
+          "VESSEL": {
+            "value_sum": 17985612809088.0,
+            "value_mean": 2250919.59,
+            "shipment_count": 7990340,
+            "weight_sum": 2932774072866.0,
+            "weight_mean": 367039.96
+          }
+        },
+        "modal_split": {
+          "AIR": 0.0,
+          "MAIL": 13.74,
+          "OTHER": 4.27,
+          "PIPELINE": 5.33,
+          "RAIL": 6.84,
+          "ROAD": 4.37,
+          "UNKNOWN": 0.49,
+          "VESSEL": 64.95
+        }
+      },
+      "efficiency": {
+        "AIR": {
+          "mean": 108.74,
+          "median": 0.0
+        },
+        "MAIL": {
+          "mean": 1.29,
+          "median": 0.0
+        },
+        "OTHER": {
+          "mean": 811.16,
+          "median": 0.0
+        },
+        "PIPELINE": {
+          "mean": 0.1,
+          "median": 0.0
+        },
+        "RAIL": {
+          "mean": 146.88,
+          "median": 4.19
+        },
+        "ROAD": {
+          "mean": 996.71,
+          "median": 166.33
+        },
+        "UNKNOWN": {
+          "mean": 119.94,
+          "median": 13.64
+        },
+        "VESSEL": {
+          "mean": 21.69,
+          "median": 0.0
+        }
+      },
+      "environmental_impact": {
+        "AIR": {
+          "total_emissions": 2253.852,
+          "emissions_per_ton": 1.527
+        },
+        "MAIL": {
+          "total_emissions": 400722468403.2362,
+          "emissions_per_ton": 0.1610000000000001
+        },
+        "OTHER": {
+          "total_emissions": 1228367574.504,
+          "emissions_per_ton": 0.161
+        },
+        "PIPELINE": {
+          "total_emissions": 65561604821.63999,
+          "emissions_per_ton": 0.014999999999999998
+        },
+        "RAIL": {
+          "total_emissions": 117011203592.44202,
+          "emissions_per_ton": 0.023000000000000003
+        },
+        "ROAD": {
+          "total_emissions": 1344423582.4739995,
+          "emissions_per_ton": 0.16099999999999995
+        },
+        "UNKNOWN": {
+          "total_emissions": 11982179590.92,
+          "emissions_per_ton": 0.161
+        },
+        "VESSEL": {
+          "total_emissions": 140773155497.568,
+          "emissions_per_ton": 0.048
+        }
+      },
+      "seasonal_patterns": {
+        "1": {
+          "AIR": {
+            "value": 180928680.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 802828296240.0,
+            "weight": 502250454780.0
+          },
+          "OTHER": {
+            "value": 229323370860.0,
+            "weight": 1868237880.0
+          },
+          "PIPELINE": {
+            "value": 388866477000.0,
+            "weight": 885805391580.0
+          },
+          "RAIL": {
+            "value": 483532756260.0,
+            "weight": 1050261738780.0
+          },
+          "ROAD": {
+            "value": 227030696940.0,
+            "weight": 1525999980.0
+          },
+          "UNKNOWN": {
+            "value": 30171997680.0,
+            "weight": 16100061540.0
+          },
+          "VESSEL": {
+            "value": 3663604387620.0,
+            "weight": 522761644680.0
+          }
+        },
+        "2": {
+          "AIR": {
+            "value": 175193442.0,
+            "weight": 486.0
+          },
+          "MAIL": {
+            "value": 776772560700.0,
+            "weight": 436364231562.0
+          },
+          "OTHER": {
+            "value": 214677211896.0,
+            "weight": 1063560672.0
+          },
+          "PIPELINE": {
+            "value": 302796512172.0,
+            "weight": 725002466130.0
+          },
+          "RAIL": {
+            "value": 367922851290.0,
+            "weight": 810504780606.0
+          },
+          "ROAD": {
+            "value": 211486507578.0,
+            "weight": 1628813718.0
+          },
+          "UNKNOWN": {
+            "value": 26350419366.0,
+            "weight": 12393106488.0
+          },
+          "VESSEL": {
+            "value": 3281080485258.0,
+            "weight": 460616635368.0
+          }
+        },
+        "3": {
+          "AIR": {
+            "value": 136302480.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 718830052416.0,
+            "weight": 435013740960.0
+          },
+          "OTHER": {
+            "value": 207866435232.0,
+            "weight": 1170358896.0
+          },
+          "PIPELINE": {
+            "value": 240505768560.0,
+            "weight": 693169774608.0
+          },
+          "RAIL": {
+            "value": 332034983280.0,
+            "weight": 779203076784.0
+          },
+          "ROAD": {
+            "value": 214312185840.0,
+            "weight": 1493206704.0
+          },
+          "UNKNOWN": {
+            "value": 23732494656.0,
+            "weight": 10747558464.0
+          },
+          "VESSEL": {
+            "value": 3005474037696.0,
+            "weight": 463302796560.0
+          }
+        },
+        "4": {
+          "AIR": {
+            "value": 52460562.0,
+            "weight": 210.0
+          },
+          "MAIL": {
+            "value": 249994184706.0,
+            "weight": 287307664266.0
+          },
+          "OTHER": {
+            "value": 106586905026.0,
+            "weight": 1031958732.0
+          },
+          "PIPELINE": {
+            "value": 143649271038.0,
+            "weight": 578343952410.0
+          },
+          "RAIL": {
+            "value": 183533072730.0,
+            "weight": 612369088464.0
+          },
+          "ROAD": {
+            "value": 132537876492.0,
+            "weight": 953353884.0
+          },
+          "UNKNOWN": {
+            "value": 7212923718.0,
+            "weight": 7899187128.0
+          },
+          "VESSEL": {
+            "value": 1617598224984.0,
+            "weight": 358092117474.0
+          }
+        },
+        "5": {
+          "AIR": {
+            "value": 55475316.0,
+            "weight": 36.0
+          },
+          "MAIL": {
+            "value": 197259299316.0,
+            "weight": 207834045624.0
+          },
+          "OTHER": {
+            "value": 97031246544.0,
+            "weight": 832399020.0
+          },
+          "PIPELINE": {
+            "value": 83716629948.0,
+            "weight": 383598603036.0
+          },
+          "RAIL": {
+            "value": 109856544912.0,
+            "weight": 539662839084.0
+          },
+          "ROAD": {
+            "value": 115364697732.0,
+            "weight": 818354088.0
+          },
+          "UNKNOWN": {
+            "value": 5905668960.0,
+            "weight": 5558075604.0
+          },
+          "VESSEL": {
+            "value": 1409292374616.0,
+            "weight": 300184571484.0
+          }
+        },
+        "6": {
+          "AIR": {
+            "value": 41777310.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 337219563240.0,
+            "weight": 201349501860.0
+          },
+          "OTHER": {
+            "value": 121000199610.0,
+            "weight": 739335000.0
+          },
+          "PIPELINE": {
+            "value": 82196521080.0,
+            "weight": 361208145990.0
+          },
+          "RAIL": {
+            "value": 113115080910.0,
+            "weight": 431961405270.0
+          },
+          "ROAD": {
+            "value": 100924589580.0,
+            "weight": 646209270.0
+          },
+          "UNKNOWN": {
+            "value": 13063481010.0,
+            "weight": 6348594480.0
+          },
+          "VESSEL": {
+            "value": 1693983443100.0,
+            "weight": 291183074910.0
+          }
+        },
+        "7": {
+          "AIR": {
+            "value": 40353000.0,
+            "weight": 24.0
+          },
+          "MAIL": {
+            "value": 309323027928.0,
+            "weight": 184740461136.0
+          },
+          "OTHER": {
+            "value": 89265518664.0,
+            "weight": 453469104.0
+          },
+          "PIPELINE": {
+            "value": 96087961176.0,
+            "weight": 337254357432.0
+          },
+          "RAIL": {
+            "value": 128886610344.0,
+            "weight": 384033140040.0
+          },
+          "ROAD": {
+            "value": 88453129080.0,
+            "weight": 574133088.0
+          },
+          "UNKNOWN": {
+            "value": 13507471152.0,
+            "weight": 7446746712.0
+          },
+          "VESSEL": {
+            "value": 1457454522504.0,
+            "weight": 239493785688.0
+          }
+        },
+        "8": {
+          "AIR": {
+            "value": 27525582.0,
+            "weight": 720.0
+          },
+          "MAIL": {
+            "value": 248645234178.0,
+            "weight": 132660991188.0
+          },
+          "OTHER": {
+            "value": 68370771078.0,
+            "weight": 258025176.0
+          },
+          "PIPELINE": {
+            "value": 82838596986.0,
+            "weight": 245206513278.0
+          },
+          "RAIL": {
+            "value": 104295185514.0,
+            "weight": 288290175534.0
+          },
+          "ROAD": {
+            "value": 71994709512.0,
+            "weight": 414207990.0
+          },
+          "UNKNOWN": {
+            "value": 10231659612.0,
+            "weight": 5113453572.0
+          },
+          "VESSEL": {
+            "value": 1095557323842.0,
+            "weight": 172492110666.0
+          }
+        },
+        "9": {
+          "AIR": {
+            "value": 22568088.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 165306793248.0,
+            "weight": 101438339700.0
+          },
+          "OTHER": {
+            "value": 49721904852.0,
+            "weight": 212267784.0
+          },
+          "PIPELINE": {
+            "value": 54729649272.0,
+            "weight": 161184450312.0
+          },
+          "RAIL": {
+            "value": 71403102264.0,
+            "weight": 191157389892.0
+          },
+          "ROAD": {
+            "value": 47839875420.0,
+            "weight": 296178312.0
+          },
+          "UNKNOWN": {
+            "value": 6481404480.0,
+            "weight": 2816691732.0
+          },
+          "VESSEL": {
+            "value": 761568009468.0,
+            "weight": 124647336036.0
+          }
+        }
+      },
+      "trade_corridors": {
+        "TX": {
+          "VESSEL": {
+            "value": 2776605829600.0,
+            "weight": 345085045280.0
+          },
+          "RAIL": {
+            "value": 473379977092.0,
+            "weight": 1384567805736.0
+          }
+        },
+        "CA": {
+          "VESSEL": {
+            "value": 1421737498312.0,
+            "weight": 188488580888.0
+          }
+        },
+        "MI": {
+          "VESSEL": {
+            "value": 954753551556.0,
+            "weight": 151195781452.0
+          },
+          "MAIL": {
+            "value": 679235764344.0,
+            "weight": 107475159588.0
+          }
+        },
+        "DU": {
+          "OTHER": {
+            "value": 629190715416.0,
+            "weight": 41932360.0
+          }
+        },
+        "OH": {
+          "VESSEL": {
+            "value": 577709308892.0,
+            "weight": 79037779372.0
+          }
+        },
+        "IL": {
+          "VESSEL": {
+            "value": 554600978384.0,
+            "weight": 83497653200.0
+          }
+        },
+        "NY": {
+          "VESSEL": {
+            "value": 487154524512.0,
+            "weight": 116650738240.0
+          }
+        },
+        "PA": {
+          "VESSEL": {
+            "value": 418499344452.0,
+            "weight": 72949622700.0
+          }
+        }
+      }
+    },
+    "2021": {
+      "mode_analysis": {
+        "metrics": {
+          "AIR": {
+            "value_sum": 1214613222.0,
+            "value_mean": 43637.75,
+            "shipment_count": 27834,
+            "weight_sum": 2232.0,
+            "weight_mean": 0.08
+          },
+          "MAIL": {
+            "value_sum": 8975387242584.0,
+            "value_mean": 3683978.46,
+            "shipment_count": 2436330,
+            "weight_sum": 4559203904820.0,
+            "weight_mean": 1871340.87
+          },
+          "OTHER": {
+            "value_sum": 2640985484550.0,
+            "value_mean": 3620674.96,
+            "shipment_count": 729418,
+            "weight_sum": 10644195492.0,
+            "weight_mean": 14592.72
+          },
+          "PIPELINE": {
+            "value_sum": 4507476597360.0,
+            "value_mean": 96826701.27,
+            "shipment_count": 46552,
+            "weight_sum": 8386573362696.0,
+            "weight_mean": 180154952.8
+          },
+          "RAIL": {
+            "value_sum": 4512804861336.0,
+            "value_mean": 6504343.9,
+            "shipment_count": 693814,
+            "weight_sum": 9224671010556.0,
+            "weight_mean": 13295596.53
+          },
+          "ROAD": {
+            "value_sum": 2496589371588.0,
+            "value_mean": 629921.52,
+            "shipment_count": 3963334,
+            "weight_sum": 15437055366.0,
+            "weight_mean": 3894.97
+          },
+          "UNKNOWN": {
+            "value_sum": 308684282820.0,
+            "value_mean": 3348348.88,
+            "shipment_count": 92190,
+            "weight_sum": 142662243942.0,
+            "weight_mean": 1547480.68
+          },
+          "VESSEL": {
+            "value_sum": 39816880149348.0,
+            "value_mean": 2585773.3,
+            "shipment_count": 15398442,
+            "weight_sum": 5788645034034.0,
+            "weight_mean": 375924.07
+          }
+        },
+        "modal_split": {
+          "AIR": 0.0,
+          "MAIL": 14.19,
+          "OTHER": 4.17,
+          "PIPELINE": 7.13,
+          "RAIL": 7.13,
+          "ROAD": 3.95,
+          "UNKNOWN": 0.49,
+          "VESSEL": 62.94
+        }
+      },
+      "efficiency": {
+        "AIR": {
+          "mean": 98.17,
+          "median": 0.0
+        },
+        "MAIL": {
+          "mean": 1.37,
+          "median": 0.0
+        },
+        "OTHER": {
+          "mean": 4947.19,
+          "median": 0.0
+        },
+        "PIPELINE": {
+          "mean": 0.15,
+          "median": 0.0
+        },
+        "RAIL": {
+          "mean": 75.46,
+          "median": 4.26
+        },
+        "ROAD": {
+          "mean": 1026.53,
+          "median": 170.16
+        },
+        "UNKNOWN": {
+          "mean": 140.51,
+          "median": 14.49
+        },
+        "VESSEL": {
+          "mean": 22.23,
+          "median": 0.0
+        }
+      },
+      "environmental_impact": {
+        "AIR": {
+          "total_emissions": 3408.2639999999997,
+          "emissions_per_ton": 1.527
+        },
+        "MAIL": {
+          "total_emissions": 734031828676.0204,
+          "emissions_per_ton": 0.1610000000000001
+        },
+        "OTHER": {
+          "total_emissions": 1713715474.212,
+          "emissions_per_ton": 0.16099999999999998
+        },
+        "PIPELINE": {
+          "total_emissions": 125798600440.44,
+          "emissions_per_ton": 0.015
+        },
+        "RAIL": {
+          "total_emissions": 212167433242.78802,
+          "emissions_per_ton": 0.023000000000000003
+        },
+        "ROAD": {
+          "total_emissions": 2485365913.9259987,
+          "emissions_per_ton": 0.16099999999999992
+        },
+        "UNKNOWN": {
+          "total_emissions": 22968621274.662,
+          "emissions_per_ton": 0.161
+        },
+        "VESSEL": {
+          "total_emissions": 277854961633.63226,
+          "emissions_per_ton": 0.04800000000000004
+        }
+      },
+      "seasonal_patterns": {
+        "1": {
+          "AIR": {
+            "value": 141049356.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 1165682950320.0,
+            "weight": 680592985968.0
+          },
+          "OTHER": {
+            "value": 314780658780.0,
+            "weight": 1405682964.0
+          },
+          "PIPELINE": {
+            "value": 440250439524.0,
+            "weight": 1181581129008.0
+          },
+          "RAIL": {
+            "value": 529741226784.0,
+            "weight": 1214822496720.0
+          },
+          "ROAD": {
+            "value": 295702857744.0,
+            "weight": 2083614960.0
+          },
+          "UNKNOWN": {
+            "value": 41080308360.0,
+            "weight": 21595393932.0
+          },
+          "VESSEL": {
+            "value": 5132434536684.0,
+            "weight": 742452397344.0
+          }
+        },
+        "2": {
+          "AIR": {
+            "value": 155302212.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 1001019975696.0,
+            "weight": 533681684406.0
+          },
+          "OTHER": {
+            "value": 317246864532.0,
+            "weight": 1558202724.0
+          },
+          "PIPELINE": {
+            "value": 721066014786.0,
+            "weight": 1075899083766.0
+          },
+          "RAIL": {
+            "value": 480116798928.0,
+            "weight": 996829286310.0
+          },
+          "ROAD": {
+            "value": 281258708562.0,
+            "weight": 1723575750.0
+          },
+          "UNKNOWN": {
+            "value": 37414808184.0,
+            "weight": 17238473460.0
+          },
+          "VESSEL": {
+            "value": 4638810235488.0,
+            "weight": 667360654116.0
+          }
+        },
+        "3": {
+          "AIR": {
+            "value": 167599368.0,
+            "weight": 72.0
+          },
+          "MAIL": {
+            "value": 1201634984016.0,
+            "weight": 607411303128.0
+          },
+          "OTHER": {
+            "value": 322141617864.0,
+            "weight": 1794989160.0
+          },
+          "PIPELINE": {
+            "value": 530605200456.0,
+            "weight": 1122465234528.0
+          },
+          "RAIL": {
+            "value": 504396646272.0,
+            "weight": 997309167408.0
+          },
+          "ROAD": {
+            "value": 325671989256.0,
+            "weight": 2036133360.0
+          },
+          "UNKNOWN": {
+            "value": 43427868048.0,
+            "weight": 19203555168.0
+          },
+          "VESSEL": {
+            "value": 5322213396936.0,
+            "weight": 741088573632.0
+          }
+        },
+        "4": {
+          "AIR": {
+            "value": 140823408.0,
+            "weight": 396.0
+          },
+          "MAIL": {
+            "value": 1038565370568.0,
+            "weight": 518167692900.0
+          },
+          "OTHER": {
+            "value": 279167008032.0,
+            "weight": 1466729682.0
+          },
+          "PIPELINE": {
+            "value": 429486429240.0,
+            "weight": 857172211566.0
+          },
+          "RAIL": {
+            "value": 519926281710.0,
+            "weight": 1083316332846.0
+          },
+          "ROAD": {
+            "value": 271266915282.0,
+            "weight": 1753391574.0
+          },
+          "UNKNOWN": {
+            "value": 36878740536.0,
+            "weight": 17302117866.0
+          },
+          "VESSEL": {
+            "value": 4510944530532.0,
+            "weight": 638509673604.0
+          }
+        },
+        "5": {
+          "AIR": {
+            "value": 131267640.0,
+            "weight": 1380.0
+          },
+          "MAIL": {
+            "value": 954335940360.0,
+            "weight": 457260696480.0
+          },
+          "OTHER": {
+            "value": 270513388980.0,
+            "weight": 1001335080.0
+          },
+          "PIPELINE": {
+            "value": 414364931160.0,
+            "weight": 779619556920.0
+          },
+          "RAIL": {
+            "value": 499908530220.0,
+            "weight": 1062991035780.0
+          },
+          "ROAD": {
+            "value": 269561009280.0,
+            "weight": 1586608740.0
+          },
+          "UNKNOWN": {
+            "value": 31648931820.0,
+            "weight": 17810731440.0
+          },
+          "VESSEL": {
+            "value": 4078301011440.0,
+            "weight": 659644055700.0
+          }
+        },
+        "6": {
+          "AIR": {
+            "value": 119120112.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 883367232678.0,
+            "weight": 405674963118.0
+          },
+          "OTHER": {
+            "value": 281198746476.0,
+            "weight": 936965934.0
+          },
+          "PIPELINE": {
+            "value": 448676269524.0,
+            "weight": 852158383740.0
+          },
+          "RAIL": {
+            "value": 457742459988.0,
+            "weight": 911296044396.0
+          },
+          "ROAD": {
+            "value": 262133861202.0,
+            "weight": 1512698760.0
+          },
+          "UNKNOWN": {
+            "value": 28407893832.0,
+            "weight": 14390332020.0
+          },
+          "VESSEL": {
+            "value": 3899905471368.0,
+            "weight": 551423344518.0
+          }
+        },
+        "7": {
+          "AIR": {
+            "value": 96390324.0,
+            "weight": 270.0
+          },
+          "MAIL": {
+            "value": 847892329308.0,
+            "weight": 413667700812.0
+          },
+          "OTHER": {
+            "value": 266312325582.0,
+            "weight": 748786788.0
+          },
+          "PIPELINE": {
+            "value": 440980876674.0,
+            "weight": 748664808912.0
+          },
+          "RAIL": {
+            "value": 472197389832.0,
+            "weight": 955351582056.0
+          },
+          "ROAD": {
+            "value": 249185342844.0,
+            "weight": 1445995476.0
+          },
+          "UNKNOWN": {
+            "value": 27286388730.0,
+            "weight": 11906366148.0
+          },
+          "VESSEL": {
+            "value": 3704635650708.0,
+            "weight": 522375125112.0
+          }
+        },
+        "8": {
+          "AIR": {
+            "value": 68001516.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 554802046812.0,
+            "weight": 285585502464.0
+          },
+          "OTHER": {
+            "value": 164758729896.0,
+            "weight": 373999392.0
+          },
+          "PIPELINE": {
+            "value": 315786388536.0,
+            "weight": 531506651436.0
+          },
+          "RAIL": {
+            "value": 313299152568.0,
+            "weight": 628268279364.0
+          },
+          "ROAD": {
+            "value": 163125237996.0,
+            "weight": 956676600.0
+          },
+          "UNKNOWN": {
+            "value": 20392265700.0,
+            "weight": 8617633380.0
+          },
+          "VESSEL": {
+            "value": 2538470497284.0,
+            "weight": 408282751548.0
+          }
+        },
+        "9": {
+          "AIR": {
+            "value": 57292200.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 440694325770.0,
+            "weight": 226443467460.0
+          },
+          "OTHER": {
+            "value": 146482446180.0,
+            "weight": 344747550.0
+          },
+          "PIPELINE": {
+            "value": 253754891370.0,
+            "weight": 430102167630.0
+          },
+          "RAIL": {
+            "value": 236264140020.0,
+            "weight": 472045722480.0
+          },
+          "ROAD": {
+            "value": 123350761620.0,
+            "weight": 803355870.0
+          },
+          "UNKNOWN": {
+            "value": 17089514490.0,
+            "weight": 8010123720.0
+          },
+          "VESSEL": {
+            "value": 2058906403170.0,
+            "weight": 298194972780.0
+          }
+        },
+        "10": {
+          "AIR": {
+            "value": 61712640.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 395275627752.0,
+            "weight": 193930540464.0
+          },
+          "OTHER": {
+            "value": 115846815192.0,
+            "weight": 374692488.0
+          },
+          "PIPELINE": {
+            "value": 199715205768.0,
+            "weight": 323631229512.0
+          },
+          "RAIL": {
+            "value": 211328978832.0,
+            "weight": 389549945808.0
+          },
+          "ROAD": {
+            "value": 110838593040.0,
+            "weight": 654281208.0
+          },
+          "UNKNOWN": {
+            "value": 12633421104.0,
+            "weight": 5449996992.0
+          },
+          "VESSEL": {
+            "value": 1772315453904.0,
+            "weight": 251614767768.0
+          }
+        },
+        "11": {
+          "AIR": {
+            "value": 49016106.0,
+            "weight": 90.0
+          },
+          "MAIL": {
+            "value": 296061347412.0,
+            "weight": 144245207484.0
+          },
+          "OTHER": {
+            "value": 92910917304.0,
+            "weight": 387987534.0
+          },
+          "PIPELINE": {
+            "value": 185157690786.0,
+            "weight": 284120932086.0
+          },
+          "RAIL": {
+            "value": 174777519294.0,
+            "weight": 306030656304.0
+          },
+          "ROAD": {
+            "value": 82407386286.0,
+            "weight": 534746160.0
+          },
+          "UNKNOWN": {
+            "value": 7960339656.0,
+            "weight": 780548796.0
+          },
+          "VESSEL": {
+            "value": 1322365788306.0,
+            "weight": 183940508952.0
+          }
+        },
+        "12": {
+          "AIR": {
+            "value": 27038340.0,
+            "weight": 24.0
+          },
+          "MAIL": {
+            "value": 196055111892.0,
+            "weight": 92542160136.0
+          },
+          "OTHER": {
+            "value": 69625965732.0,
+            "weight": 250076196.0
+          },
+          "PIPELINE": {
+            "value": 127632259536.0,
+            "weight": 199651973592.0
+          },
+          "RAIL": {
+            "value": 113105736888.0,
+            "weight": 206860461084.0
+          },
+          "ROAD": {
+            "value": 62086708476.0,
+            "weight": 345976908.0
+          },
+          "UNKNOWN": {
+            "value": 4463802360.0,
+            "weight": 356971020.0
+          },
+          "VESSEL": {
+            "value": 837577173528.0,
+            "weight": 123758208960.0
+          }
+        }
+      },
+      "trade_corridors": {
+        "TX": {
+          "VESSEL": {
+            "value": 6031863827848.0,
+            "weight": 762339901528.0
+          },
+          "RAIL": {
+            "value": 1191329278864.0,
+            "weight": 2446904664476.0
+          }
+        },
+        "CA": {
+          "VESSEL": {
+            "value": 3155096868572.0,
+            "weight": 381327419368.0
+          }
+        },
+        "MI": {
+          "VESSEL": {
+            "value": 2049292429976.0,
+            "weight": 321945746916.0
+          },
+          "MAIL": {
+            "value": 1417571364268.0,
+            "weight": 212964063828.0
+          }
+        },
+        "DU": {
+          "OTHER": {
+            "value": 1414492831076.0,
+            "weight": 80400.0
+          }
+        },
+        "IL": {
+          "VESSEL": {
+            "value": 1240401524716.0,
+            "weight": 181041036340.0
+          },
+          "PIPELINE": {
+            "value": 1006855015096.0,
+            "weight": 2462385088644.0
+          }
+        },
+        "OH": {
+          "VESSEL": {
+            "value": 1218333344584.0,
+            "weight": 156603037280.0
+          }
+        },
+        "NY": {
+          "VESSEL": {
+            "value": 1040699036060.0,
+            "weight": 217560724560.0
+          }
+        }
+      }
+    },
+    "2022": {
+      "mode_analysis": {
+        "metrics": {
+          "AIR": {
+            "value_sum": 1242288828.0,
+            "value_mean": 48955.27,
+            "shipment_count": 25376,
+            "weight_sum": 76554.0,
+            "weight_mean": 3.02
+          },
+          "MAIL": {
+            "value_sum": 9507558651338.0,
+            "value_mean": 4149960.13,
+            "shipment_count": 2291000,
+            "weight_sum": 4243633997160.0,
+            "weight_mean": 1852306.42
+          },
+          "OTHER": {
+            "value_sum": 2683643886866.0,
+            "value_mean": 3458063.34,
+            "shipment_count": 776054,
+            "weight_sum": 8492113890.0,
+            "weight_mean": 10942.68
+          },
+          "PIPELINE": {
+            "value_sum": 6707558273302.0,
+            "value_mean": 146594070.14,
+            "shipment_count": 45756,
+            "weight_sum": 8117678244242.0,
+            "weight_mean": 177412322.85
+          },
+          "RAIL": {
+            "value_sum": 6250975398254.0,
+            "value_mean": 9823480.58,
+            "shipment_count": 636330,
+            "weight_sum": 8804702282902.0,
+            "weight_mean": 13836692.1
+          },
+          "ROAD": {
+            "value_sum": 2564611712978.0,
+            "value_mean": 676596.43,
+            "shipment_count": 3790460,
+            "weight_sum": 15608994972.0,
+            "weight_mean": 4117.97
+          },
+          "UNKNOWN": {
+            "value_sum": 304056536270.0,
+            "value_mean": 3715528.22,
+            "shipment_count": 81834,
+            "weight_sum": 69588561558.0,
+            "weight_mean": 850362.46
+          },
+          "VESSEL": {
+            "value_sum": 42178241326920.0,
+            "value_mean": 2928768.34,
+            "shipment_count": 14401358,
+            "weight_sum": 5452271394238.0,
+            "weight_mean": 378594.25
+          }
+        },
+        "modal_split": {
+          "AIR": 0.0,
+          "MAIL": 13.54,
+          "OTHER": 3.82,
+          "PIPELINE": 9.56,
+          "RAIL": 8.9,
+          "ROAD": 3.65,
+          "UNKNOWN": 0.43,
+          "VESSEL": 60.08
+        }
+      },
+      "efficiency": {
+        "AIR": {
+          "mean": 61.42,
+          "median": 0.0
+        },
+        "MAIL": {
+          "mean": 2.04,
+          "median": 0.0
+        },
+        "OTHER": {
+          "mean": 4275.36,
+          "median": 0.0
+        },
+        "PIPELINE": {
+          "mean": 0.26,
+          "median": 0.0
+        },
+        "RAIL": {
+          "mean": 74.05,
+          "median": 5.17
+        },
+        "ROAD": {
+          "mean": 1072.36,
+          "median": 170.26
+        },
+        "UNKNOWN": {
+          "mean": 229.16,
+          "median": 15.98
+        },
+        "VESSEL": {
+          "mean": 30.73,
+          "median": 0.0
+        }
+      },
+      "environmental_impact": {
+        "AIR": {
+          "total_emissions": 116897.95799999997,
+          "emissions_per_ton": 1.5269999999999997
+        },
+        "MAIL": {
+          "total_emissions": 683225073542.7605,
+          "emissions_per_ton": 0.16100000000000012
+        },
+        "OTHER": {
+          "total_emissions": 1367230336.2900004,
+          "emissions_per_ton": 0.16100000000000006
+        },
+        "PIPELINE": {
+          "total_emissions": 121765173663.62999,
+          "emissions_per_ton": 0.015
+        },
+        "RAIL": {
+          "total_emissions": 202508152506.74594,
+          "emissions_per_ton": 0.022999999999999993
+        },
+        "ROAD": {
+          "total_emissions": 2513048190.4920006,
+          "emissions_per_ton": 0.16100000000000003
+        },
+        "UNKNOWN": {
+          "total_emissions": 11203758410.838001,
+          "emissions_per_ton": 0.161
+        },
+        "VESSEL": {
+          "total_emissions": 261709026923.42407,
+          "emissions_per_ton": 0.048000000000000015
+        }
+      },
+      "seasonal_patterns": {
+        "1": {
+          "AIR": {
+            "value": 159818802.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 1209797190030.0,
+            "weight": 569950585932.0
+          },
+          "OTHER": {
+            "value": 331202171976.0,
+            "weight": 1236876342.0
+          },
+          "PIPELINE": {
+            "value": 890838164736.0,
+            "weight": 1258562952348.0
+          },
+          "RAIL": {
+            "value": 695834031204.0,
+            "weight": 1161119988756.0
+          },
+          "ROAD": {
+            "value": 329773306590.0,
+            "weight": 1994001516.0
+          },
+          "UNKNOWN": {
+            "value": 32853197520.0,
+            "weight": 2488276908.0
+          },
+          "VESSEL": {
+            "value": 5378663536506.0,
+            "weight": 708696289236.0
+          }
+        },
+        "2": {
+          "AIR": {
+            "value": 162202320.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 1099860603624.0,
+            "weight": 510725686248.0
+          },
+          "OTHER": {
+            "value": 314896658328.0,
+            "weight": 1181450592.0
+          },
+          "PIPELINE": {
+            "value": 713276616600.0,
+            "weight": 1006778048832.0
+          },
+          "RAIL": {
+            "value": 648767047968.0,
+            "weight": 986446845720.0
+          },
+          "ROAD": {
+            "value": 303787760544.0,
+            "weight": 1926254376.0
+          },
+          "UNKNOWN": {
+            "value": 35418707568.0,
+            "weight": 2816079192.0
+          },
+          "VESSEL": {
+            "value": 4980850480368.0,
+            "weight": 638321475600.0
+          }
+        },
+        "3": {
+          "AIR": {
+            "value": 175054176.0,
+            "weight": 66.0
+          },
+          "MAIL": {
+            "value": 1331638120956.0,
+            "weight": 578608554876.0
+          },
+          "OTHER": {
+            "value": 380959712166.0,
+            "weight": 1206113568.0
+          },
+          "PIPELINE": {
+            "value": 812022798312.0,
+            "weight": 1075546326558.0
+          },
+          "RAIL": {
+            "value": 787474199688.0,
+            "weight": 1032930815664.0
+          },
+          "ROAD": {
+            "value": 369626095740.0,
+            "weight": 2205466560.0
+          },
+          "UNKNOWN": {
+            "value": 35120650422.0,
+            "weight": 3986747226.0
+          },
+          "VESSEL": {
+            "value": 5645097212898.0,
+            "weight": 804327822540.0
+          }
+        },
+        "4": {
+          "AIR": {
+            "value": 144736740.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 1157864799240.0,
+            "weight": 501373772820.0
+          },
+          "OTHER": {
+            "value": 298864940220.0,
+            "weight": 700009620.0
+          },
+          "PIPELINE": {
+            "value": 755922440580.0,
+            "weight": 837218639460.0
+          },
+          "RAIL": {
+            "value": 791368104660.0,
+            "weight": 1036266494220.0
+          },
+          "ROAD": {
+            "value": 297969617340.0,
+            "weight": 1701599640.0
+          },
+          "UNKNOWN": {
+            "value": 36206703240.0,
+            "weight": 3078251340.0
+          },
+          "VESSEL": {
+            "value": 4776975814500.0,
+            "weight": 655310984580.0
+          }
+        },
+        "5": {
+          "AIR": {
+            "value": 134338824.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 1039563862830.0,
+            "weight": 444942181350.0
+          },
+          "OTHER": {
+            "value": 270547667406.0,
+            "weight": 717548490.0
+          },
+          "PIPELINE": {
+            "value": 740682143946.0,
+            "weight": 790269817230.0
+          },
+          "RAIL": {
+            "value": 764623699884.0,
+            "weight": 1013529623454.0
+          },
+          "ROAD": {
+            "value": 252452787264.0,
+            "weight": 1542630042.0
+          },
+          "UNKNOWN": {
+            "value": 30225192714.0,
+            "weight": 3743190792.0
+          },
+          "VESSEL": {
+            "value": 4431458371302.0,
+            "weight": 596918037798.0
+          }
+        },
+        "6": {
+          "AIR": {
+            "value": 115630368.0,
+            "weight": 48.0
+          },
+          "MAIL": {
+            "value": 906025747824.0,
+            "weight": 393492949056.0
+          },
+          "OTHER": {
+            "value": 256213380048.0,
+            "weight": 842317296.0
+          },
+          "PIPELINE": {
+            "value": 714829027680.0,
+            "weight": 725561396208.0
+          },
+          "RAIL": {
+            "value": 638296981488.0,
+            "weight": 808336508016.0
+          },
+          "ROAD": {
+            "value": 235057015872.0,
+            "weight": 1378635648.0
+          },
+          "UNKNOWN": {
+            "value": 26628764544.0,
+            "weight": 3148508976.0
+          },
+          "VESSEL": {
+            "value": 4002259790064.0,
+            "weight": 529705033056.0
+          }
+        },
+        "7": {
+          "AIR": {
+            "value": 95352726.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 713069393360.0,
+            "weight": 319978474020.0
+          },
+          "OTHER": {
+            "value": 208574495594.0,
+            "weight": 615594354.0
+          },
+          "PIPELINE": {
+            "value": 569159693176.0,
+            "weight": 591299147432.0
+          },
+          "RAIL": {
+            "value": 560262271904.0,
+            "weight": 778047192454.0
+          },
+          "ROAD": {
+            "value": 189172242266.0,
+            "weight": 1202444766.0
+          },
+          "UNKNOWN": {
+            "value": 18490915340.0,
+            "weight": 1779150516.0
+          },
+          "VESSEL": {
+            "value": 3181090877514.0,
+            "weight": 380520294940.0
+          }
+        },
+        "8": {
+          "AIR": {
+            "value": 90385200.0,
+            "weight": 108.0
+          },
+          "MAIL": {
+            "value": 642936017448.0,
+            "weight": 291971871900.0
+          },
+          "OTHER": {
+            "value": 185939753148.0,
+            "weight": 551228544.0
+          },
+          "PIPELINE": {
+            "value": 527234604984.0,
+            "weight": 594961415388.0
+          },
+          "RAIL": {
+            "value": 484656104844.0,
+            "weight": 670445228988.0
+          },
+          "ROAD": {
+            "value": 168680037312.0,
+            "weight": 1088469900.0
+          },
+          "UNKNOWN": {
+            "value": 20726991036.0,
+            "weight": 1894552128.0
+          },
+          "VESSEL": {
+            "value": 3021954888024.0,
+            "weight": 359182155492.0
+          }
+        },
+        "9": {
+          "AIR": {
+            "value": 50194980.0,
+            "weight": 60.0
+          },
+          "MAIL": {
+            "value": 506395611900.0,
+            "weight": 222834930330.0
+          },
+          "OTHER": {
+            "value": 165090797310.0,
+            "weight": 364009200.0
+          },
+          "PIPELINE": {
+            "value": 388198759650.0,
+            "weight": 451143316980.0
+          },
+          "RAIL": {
+            "value": 330187642080.0,
+            "weight": 487116893940.0
+          },
+          "ROAD": {
+            "value": 146302578210.0,
+            "weight": 938390190.0
+          },
+          "UNKNOWN": {
+            "value": 23837504490.0,
+            "weight": 12699607350.0
+          },
+          "VESSEL": {
+            "value": 2457971075430.0,
+            "weight": 275709075090.0
+          }
+        },
+        "10": {
+          "AIR": {
+            "value": 45408840.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 411912594360.0,
+            "weight": 187771775280.0
+          },
+          "OTHER": {
+            "value": 120553755792.0,
+            "weight": 253132968.0
+          },
+          "PIPELINE": {
+            "value": 274171371792.0,
+            "weight": 350464961784.0
+          },
+          "RAIL": {
+            "value": 258137112288.0,
+            "weight": 389274031272.0
+          },
+          "ROAD": {
+            "value": 122451039576.0,
+            "weight": 738531720.0
+          },
+          "UNKNOWN": {
+            "value": 22629023664.0,
+            "weight": 18514511616.0
+          },
+          "VESSEL": {
+            "value": 2000254346160.0,
+            "weight": 232997907336.0
+          }
+        },
+        "11": {
+          "AIR": {
+            "value": 43493472.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 296588546874.0,
+            "weight": 134660684376.0
+          },
+          "OTHER": {
+            "value": 85091387454.0,
+            "weight": 547470252.0
+          },
+          "PIPELINE": {
+            "value": 198867688650.0,
+            "weight": 264161894562.0
+          },
+          "RAIL": {
+            "value": 168242327874.0,
+            "weight": 256553569926.0
+          },
+          "ROAD": {
+            "value": 87507387864.0,
+            "weight": 530601786.0
+          },
+          "UNKNOWN": {
+            "value": 13431564108.0,
+            "weight": 9417591306.0
+          },
+          "VESSEL": {
+            "value": 1415091079278.0,
+            "weight": 167929089714.0
+          }
+        },
+        "12": {
+          "AIR": {
+            "value": 25672380.0,
+            "weight": 76272.0
+          },
+          "MAIL": {
+            "value": 191906162892.0,
+            "weight": 87322530972.0
+          },
+          "OTHER": {
+            "value": 65709167424.0,
+            "weight": 276362664.0
+          },
+          "PIPELINE": {
+            "value": 122354963196.0,
+            "weight": 171710327460.0
+          },
+          "RAIL": {
+            "value": 123125874372.0,
+            "weight": 184635090492.0
+          },
+          "ROAD": {
+            "value": 61831844400.0,
+            "weight": 361968828.0
+          },
+          "UNKNOWN": {
+            "value": 8487321624.0,
+            "weight": 6022094208.0
+          },
+          "VESSEL": {
+            "value": 886573854876.0,
+            "weight": 102653228856.0
+          }
+        }
+      },
+      "trade_corridors": {
+        "TX": {
+          "VESSEL": {
+            "value": 6800418854100.0,
+            "weight": 788912027996.0
+          },
+          "RAIL": {
+            "value": 1880774866708.0,
+            "weight": 2524702905828.0
+          }
+        },
+        "CA": {
+          "VESSEL": {
+            "value": 3112221186748.0,
+            "weight": 388833993384.0
+          }
+        },
+        "MI": {
+          "VESSEL": {
+            "value": 2186871457712.0,
+            "weight": 293044691740.0
+          },
+          "MAIL": {
+            "value": 1576335514940.0,
+            "weight": 214194564500.0
+          }
+        },
+        "IL": {
+          "PIPELINE": {
+            "value": 1653787656696.0,
+            "weight": 2533157743096.0
+          },
+          "VESSEL": {
+            "value": 1384880782832.0,
+            "weight": 171133417344.0
+          }
+        },
+        "DU": {
+          "OTHER": {
+            "value": 1390185157748.0,
+            "weight": 255500.0
+          }
+        },
+        "OH": {
+          "VESSEL": {
+            "value": 1252578666320.0,
+            "weight": 137736337272.0
+          }
+        },
+        "NY": {
+          "VESSEL": {
+            "value": 1097327032468.0,
+            "weight": 197400106420.0
+          }
+        }
+      }
+    },
+    "2023": {
+      "mode_analysis": {
+        "metrics": {
+          "AIR": {
+            "value_sum": 726755952.0,
+            "value_mean": 52427.93,
+            "shipment_count": 13862,
+            "weight_sum": 2826.0,
+            "weight_mean": 0.2
+          },
+          "MAIL": {
+            "value_sum": 5003970574674.0,
+            "value_mean": 4241659.52,
+            "shipment_count": 1179720,
+            "weight_sum": 2207969151582.0,
+            "weight_mean": 1871604.41
+          },
+          "OTHER": {
+            "value_sum": 1441335559974.0,
+            "value_mean": 3274542.13,
+            "shipment_count": 440164,
+            "weight_sum": 6739636902.0,
+            "weight_mean": 15311.65
+          },
+          "PIPELINE": {
+            "value_sum": 2714968585284.0,
+            "value_mean": 113711198.91,
+            "shipment_count": 23876,
+            "weight_sum": 4361192259708.0,
+            "weight_mean": 182660087.94
+          },
+          "RAIL": {
+            "value_sum": 2906099523882.0,
+            "value_mean": 8360951.5,
+            "shipment_count": 347580,
+            "weight_sum": 4528168574688.0,
+            "weight_mean": 13027701.75
+          },
+          "ROAD": {
+            "value_sum": 1353787396272.0,
+            "value_mean": 657978.78,
+            "shipment_count": 2057494,
+            "weight_sum": 8433959604.0,
+            "weight_mean": 4099.14
+          },
+          "UNKNOWN": {
+            "value_sum": 230717124018.0,
+            "value_mean": 5128414.78,
+            "shipment_count": 44988,
+            "weight_sum": 182390466462.0,
+            "weight_mean": 4054202.6
+          },
+          "VESSEL": {
+            "value_sum": 23798235368394.0,
+            "value_mean": 3078424.59,
+            "shipment_count": 7730654,
+            "weight_sum": 2739151214520.0,
+            "weight_mean": 354323.35
+          }
+        },
+        "modal_split": {
+          "AIR": 0.0,
+          "MAIL": 13.36,
+          "OTHER": 3.85,
+          "PIPELINE": 7.25,
+          "RAIL": 7.76,
+          "ROAD": 3.61,
+          "UNKNOWN": 0.62,
+          "VESSEL": 63.55
+        }
+      },
+      "efficiency": {
+        "AIR": {
+          "mean": 46.92,
+          "median": 0.0
+        },
+        "MAIL": {
+          "mean": 2.32,
+          "median": 0.0
+        },
+        "OTHER": {
+          "mean": 2130.21,
+          "median": 0.0
+        },
+        "PIPELINE": {
+          "mean": 3.55,
+          "median": 0.0
+        },
+        "RAIL": {
+          "mean": 84.3,
+          "median": 6.54
+        },
+        "ROAD": {
+          "mean": 1020.83,
+          "median": 179.29
+        },
+        "UNKNOWN": {
+          "mean": 176.59,
+          "median": 15.79
+        },
+        "VESSEL": {
+          "mean": 32.77,
+          "median": 0.0
+        }
+      },
+      "environmental_impact": {
+        "AIR": {
+          "total_emissions": 4315.302,
+          "emissions_per_ton": 1.527
+        },
+        "MAIL": {
+          "total_emissions": 355483033404.70233,
+          "emissions_per_ton": 0.16100000000000014
+        },
+        "OTHER": {
+          "total_emissions": 1085081541.2220001,
+          "emissions_per_ton": 0.16100000000000003
+        },
+        "PIPELINE": {
+          "total_emissions": 65417883895.619995,
+          "emissions_per_ton": 0.015
+        },
+        "RAIL": {
+          "total_emissions": 104147877217.82404,
+          "emissions_per_ton": 0.023000000000000007
+        },
+        "ROAD": {
+          "total_emissions": 1357867496.244001,
+          "emissions_per_ton": 0.16100000000000012
+        },
+        "UNKNOWN": {
+          "total_emissions": 29364865100.382004,
+          "emissions_per_ton": 0.16100000000000003
+        },
+        "VESSEL": {
+          "total_emissions": 131479258296.9601,
+          "emissions_per_ton": 0.048000000000000036
+        }
+      },
+      "seasonal_patterns": {
+        "1": {
+          "AIR": {
+            "value": 113893452.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 905493104550.0,
+            "weight": 424098429156.0
+          },
+          "OTHER": {
+            "value": 266843470446.0,
+            "weight": 1951535970.0
+          },
+          "PIPELINE": {
+            "value": 565226669268.0,
+            "weight": 853761901860.0
+          },
+          "RAIL": {
+            "value": 563031138402.0,
+            "weight": 835131271518.0
+          },
+          "ROAD": {
+            "value": 259303162842.0,
+            "weight": 1546792146.0
+          },
+          "UNKNOWN": {
+            "value": 34580307186.0,
+            "weight": 28906605918.0
+          },
+          "VESSEL": {
+            "value": 4197709255482.0,
+            "weight": 501670244772.0
+          }
+        },
+        "2": {
+          "AIR": {
+            "value": 91396176.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 800669945472.0,
+            "weight": 356904388608.0
+          },
+          "OTHER": {
+            "value": 214712562576.0,
+            "weight": 915930384.0
+          },
+          "PIPELINE": {
+            "value": 458002992720.0,
+            "weight": 695215897824.0
+          },
+          "RAIL": {
+            "value": 412828111296.0,
+            "weight": 650988172368.0
+          },
+          "ROAD": {
+            "value": 190050898656.0,
+            "weight": 1393817856.0
+          },
+          "UNKNOWN": {
+            "value": 37904972640.0,
+            "weight": 25527588240.0
+          },
+          "VESSEL": {
+            "value": 3641843529168.0,
+            "weight": 432075331872.0
+          }
+        },
+        "3": {
+          "AIR": {
+            "value": 182499702.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 780226417950.0,
+            "weight": 347536846020.0
+          },
+          "OTHER": {
+            "value": 243740756238.0,
+            "weight": 963286716.0
+          },
+          "PIPELINE": {
+            "value": 425968904298.0,
+            "weight": 656363418648.0
+          },
+          "RAIL": {
+            "value": 451851546384.0,
+            "weight": 668437268856.0
+          },
+          "ROAD": {
+            "value": 216567854832.0,
+            "weight": 1384134654.0
+          },
+          "UNKNOWN": {
+            "value": 36112363560.0,
+            "weight": 26813046834.0
+          },
+          "VESSEL": {
+            "value": 3787182981162.0,
+            "weight": 434431528146.0
+          }
+        },
+        "4": {
+          "AIR": {
+            "value": 79568280.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 636640912188.0,
+            "weight": 282457294560.0
+          },
+          "OTHER": {
+            "value": 166346559648.0,
+            "weight": 639634464.0
+          },
+          "PIPELINE": {
+            "value": 297252168696.0,
+            "weight": 485632403676.0
+          },
+          "RAIL": {
+            "value": 333332231508.0,
+            "weight": 526952152404.0
+          },
+          "ROAD": {
+            "value": 171415121184.0,
+            "weight": 1016243496.0
+          },
+          "UNKNOWN": {
+            "value": 28038006216.0,
+            "weight": 23703647220.0
+          },
+          "VESSEL": {
+            "value": 2923522597764.0,
+            "weight": 335407862844.0
+          }
+        },
+        "5": {
+          "AIR": {
+            "value": 74546250.0,
+            "weight": 60.0
+          },
+          "MAIL": {
+            "value": 531144444210.0,
+            "weight": 220997890680.0
+          },
+          "OTHER": {
+            "value": 152087121750.0,
+            "weight": 599910750.0
+          },
+          "PIPELINE": {
+            "value": 275976647040.0,
+            "weight": 487592633070.0
+          },
+          "RAIL": {
+            "value": 285267127290.0,
+            "weight": 487418237670.0
+          },
+          "ROAD": {
+            "value": 143830977270.0,
+            "weight": 910421550.0
+          },
+          "UNKNOWN": {
+            "value": 25426702470.0,
+            "weight": 22825270350.0
+          },
+          "VESSEL": {
+            "value": 2673432709650.0,
+            "weight": 304948186560.0
+          }
+        },
+        "6": {
+          "AIR": {
+            "value": 50417352.0,
+            "weight": 48.0
+          },
+          "MAIL": {
+            "value": 408956747808.0,
+            "weight": 167357128776.0
+          },
+          "OTHER": {
+            "value": 125172240264.0,
+            "weight": 468041112.0
+          },
+          "PIPELINE": {
+            "value": 195051399096.0,
+            "weight": 354642659112.0
+          },
+          "RAIL": {
+            "value": 247120853232.0,
+            "weight": 428322883920.0
+          },
+          "ROAD": {
+            "value": 115228967160.0,
+            "weight": 731853000.0
+          },
+          "UNKNOWN": {
+            "value": 19755759360.0,
+            "weight": 13822673376.0
+          },
+          "VESSEL": {
+            "value": 2123752759248.0,
+            "weight": 232984776000.0
+          }
+        },
+        "7": {
+          "AIR": {
+            "value": 38462886.0,
+            "weight": 18.0
+          },
+          "MAIL": {
+            "value": 309129838254.0,
+            "weight": 133899432822.0
+          },
+          "OTHER": {
+            "value": 87658509618.0,
+            "weight": 404975952.0
+          },
+          "PIPELINE": {
+            "value": 146991266640.0,
+            "weight": 260052992586.0
+          },
+          "RAIL": {
+            "value": 205001195652.0,
+            "weight": 321559674426.0
+          },
+          "ROAD": {
+            "value": 79980130188.0,
+            "weight": 463058838.0
+          },
+          "UNKNOWN": {
+            "value": 15877427166.0,
+            "weight": 15108487200.0
+          },
+          "VESSEL": {
+            "value": 1442253392388.0,
+            "weight": 161624290266.0
+          }
+        },
+        "8": {
+          "AIR": {
+            "value": 31800192.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 212271004836.0,
+            "weight": 89567963328.0
+          },
+          "OTHER": {
+            "value": 58142391912.0,
+            "weight": 167633352.0
+          },
+          "PIPELINE": {
+            "value": 117048473844.0,
+            "weight": 198776640096.0
+          },
+          "RAIL": {
+            "value": 142420692552.0,
+            "weight": 218449876488.0
+          },
+          "ROAD": {
+            "value": 61755061476.0,
+            "weight": 340041120.0
+          },
+          "UNKNOWN": {
+            "value": 11056717632.0,
+            "weight": 7821354144.0
+          },
+          "VESSEL": {
+            "value": 1053450154392.0,
+            "weight": 116610441036.0
+          }
+        },
+        "9": {
+          "AIR": {
+            "value": 20518248.0,
+            "weight": 1350.0
+          },
+          "MAIL": {
+            "value": 108061691760.0,
+            "weight": 44488474380.0
+          },
+          "OTHER": {
+            "value": 29927497878.0,
+            "weight": 121471614.0
+          },
+          "PIPELINE": {
+            "value": 55090270272.0,
+            "weight": 87879123660.0
+          },
+          "RAIL": {
+            "value": 70239263592.0,
+            "weight": 99818105766.0
+          },
+          "ROAD": {
+            "value": 29189245626.0,
+            "weight": 174553080.0
+          },
+          "UNKNOWN": {
+            "value": 5484886830.0,
+            "weight": 4272737568.0
+          },
+          "VESSEL": {
+            "value": 492880678980.0,
+            "weight": 54907357050.0
+          }
+        },
+        "10": {
+          "AIR": {
+            "value": 15400086.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 109341714642.0,
+            "weight": 46018392996.0
+          },
+          "OTHER": {
+            "value": 29908208454.0,
+            "weight": 152467098.0
+          },
+          "PIPELINE": {
+            "value": 60287091210.0,
+            "weight": 92111710866.0
+          },
+          "RAIL": {
+            "value": 66556831542.0,
+            "weight": 99007568256.0
+          },
+          "ROAD": {
+            "value": 29474557662.0,
+            "weight": 171361752.0
+          },
+          "UNKNOWN": {
+            "value": 5906967210.0,
+            "weight": 4464164070.0
+          },
+          "VESSEL": {
+            "value": 529514267370.0,
+            "weight": 60169999368.0
+          }
+        },
+        "11": {
+          "AIR": {
+            "value": 13807458.0,
+            "weight": 1350.0
+          },
+          "MAIL": {
+            "value": 103567596216.0,
+            "weight": 45982449822.0
+          },
+          "OTHER": {
+            "value": 28539247932.0,
+            "weight": 165714690.0
+          },
+          "PIPELINE": {
+            "value": 63197674998.0,
+            "weight": 97937470626.0
+          },
+          "RAIL": {
+            "value": 62548074942.0,
+            "weight": 92768816226.0
+          },
+          "ROAD": {
+            "value": 29248109352.0,
+            "weight": 155309436.0
+          },
+          "UNKNOWN": {
+            "value": 5651408544.0,
+            "weight": 4823893650.0
+          },
+          "VESSEL": {
+            "value": 493355642382.0,
+            "weight": 55498396632.0
+          }
+        },
+        "12": {
+          "AIR": {
+            "value": 14445870.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 98467156788.0,
+            "weight": 48660460434.0
+          },
+          "OTHER": {
+            "value": 38256993258.0,
+            "weight": 189034800.0
+          },
+          "PIPELINE": {
+            "value": 54875027202.0,
+            "weight": 91225407684.0
+          },
+          "RAIL": {
+            "value": 65902457490.0,
+            "weight": 99314546790.0
+          },
+          "ROAD": {
+            "value": 27743310024.0,
+            "weight": 146372676.0
+          },
+          "UNKNOWN": {
+            "value": 4921605204.0,
+            "weight": 4300997892.0
+          },
+          "VESSEL": {
+            "value": 439337400408.0,
+            "weight": 48822799974.0
+          }
+        }
+      },
+      "trade_corridors": {
+        "TX": {
+          "VESSEL": {
+            "value": 3783691177600.0,
+            "weight": 383963507300.0
+          },
+          "RAIL": {
+            "value": 797577076132.0,
+            "weight": 1221333882420.0
+          }
+        },
+        "CA": {
+          "VESSEL": {
+            "value": 1634338365092.0,
+            "weight": 184979789044.0
+          }
+        },
+        "MI": {
+          "VESSEL": {
+            "value": 1334874212220.0,
+            "weight": 165887481276.0
+          },
+          "MAIL": {
+            "value": 954080946524.0,
+            "weight": 120425392144.0
+          }
+        },
+        "IL": {
+          "VESSEL": {
+            "value": 776358750920.0,
+            "weight": 84912168092.0
+          },
+          "PIPELINE": {
+            "value": 708414530636.0,
+            "weight": 1514684928524.0
+          }
+        },
+        "DU": {
+          "OTHER": {
+            "value": 727455097724.0,
+            "weight": 53268988.0
+          }
+        },
+        "OH": {
+          "VESSEL": {
+            "value": 722912950544.0,
+            "weight": 73639358156.0
+          }
+        },
+        "NY": {
+          "VESSEL": {
+            "value": 649598829148.0,
+            "weight": 104781370520.0
+          }
+        }
+      }
+    },
+    "2024": {
+      "mode_analysis": {
+        "metrics": {
+          "AIR": {
+            "value_sum": 110158856.0,
+            "value_mean": 44852.95,
+            "shipment_count": 2456,
+            "weight_sum": 960.0,
+            "weight_mean": 0.39
+          },
+          "MAIL": {
+            "value_sum": 895434425182.0,
+            "value_mean": 4163146.02,
+            "shipment_count": 215086,
+            "weight_sum": 397589133936.0,
+            "weight_mean": 1848512.38
+          },
+          "OTHER": {
+            "value_sum": 256359670566.0,
+            "value_mean": 3043495.0,
+            "shipment_count": 84232,
+            "weight_sum": 1241378746.0,
+            "weight_mean": 14737.61
+          },
+          "PIPELINE": {
+            "value_sum": 473680969314.0,
+            "value_mean": 107119169.9,
+            "shipment_count": 4422,
+            "weight_sum": 808549587784.0,
+            "weight_mean": 182847034.78
+          },
+          "RAIL": {
+            "value_sum": 523388212130.0,
+            "value_mean": 8331288.6,
+            "shipment_count": 62822,
+            "weight_sum": 787671760936.0,
+            "weight_mean": 12538151.62
+          },
+          "ROAD": {
+            "value_sum": 237703465004.0,
+            "value_mean": 621983.58,
+            "shipment_count": 382170,
+            "weight_sum": 1407087126.0,
+            "weight_mean": 3681.84
+          },
+          "UNKNOWN": {
+            "value_sum": 48615071698.0,
+            "value_mean": 6169425.34,
+            "shipment_count": 7880,
+            "weight_sum": 44628061488.0,
+            "weight_mean": 5663459.58
+          },
+          "VESSEL": {
+            "value_sum": 4527232525462.0,
+            "value_mean": 3105059.42,
+            "shipment_count": 1458018,
+            "weight_sum": 500434307428.0,
+            "weight_mean": 343229.17
+          }
+        },
+        "modal_split": {
+          "AIR": 0.0,
+          "MAIL": 12.86,
+          "OTHER": 3.68,
+          "PIPELINE": 6.8,
+          "RAIL": 7.52,
+          "ROAD": 3.41,
+          "UNKNOWN": 0.7,
+          "VESSEL": 65.02
+        }
+      },
+      "efficiency": {
+        "AIR": {
+          "mean": 78.66,
+          "median": 0.0
+        },
+        "MAIL": {
+          "mean": 2.06,
+          "median": 0.0
+        },
+        "OTHER": {
+          "mean": 2905.32,
+          "median": 0.0
+        },
+        "PIPELINE": {
+          "mean": 0.2,
+          "median": 0.0
+        },
+        "RAIL": {
+          "mean": 83.06,
+          "median": 6.92
+        },
+        "ROAD": {
+          "mean": 1123.06,
+          "median": 199.42
+        },
+        "UNKNOWN": {
+          "mean": 123.58,
+          "median": 15.29
+        },
+        "VESSEL": {
+          "mean": 36.9,
+          "median": 0.0
+        }
+      },
+      "environmental_impact": {
+        "AIR": {
+          "total_emissions": 1465.9199999999998,
+          "emissions_per_ton": 1.527
+        },
+        "MAIL": {
+          "total_emissions": 64011850563.696,
+          "emissions_per_ton": 0.161
+        },
+        "OTHER": {
+          "total_emissions": 199861978.10600004,
+          "emissions_per_ton": 0.16100000000000003
+        },
+        "PIPELINE": {
+          "total_emissions": 12128243816.759998,
+          "emissions_per_ton": 0.014999999999999998
+        },
+        "RAIL": {
+          "total_emissions": 18116450501.528,
+          "emissions_per_ton": 0.023
+        },
+        "ROAD": {
+          "total_emissions": 226541027.28599995,
+          "emissions_per_ton": 0.16099999999999998
+        },
+        "UNKNOWN": {
+          "total_emissions": 7185117899.568001,
+          "emissions_per_ton": 0.161
+        },
+        "VESSEL": {
+          "total_emissions": 24020846756.544006,
+          "emissions_per_ton": 0.048000000000000015
+        }
+      },
+      "seasonal_patterns": {
+        "1": {
+          "AIR": {
+            "value": 15097002.0,
+            "weight": 12.0
+          },
+          "MAIL": {
+            "value": 93633967986.0,
+            "weight": 45286235484.0
+          },
+          "OTHER": {
+            "value": 25307671716.0,
+            "weight": 119803062.0
+          },
+          "PIPELINE": {
+            "value": 58247655666.0,
+            "weight": 101016253794.0
+          },
+          "RAIL": {
+            "value": 60012479790.0,
+            "weight": 92301233352.0
+          },
+          "ROAD": {
+            "value": 24850860600.0,
+            "weight": 156009510.0
+          },
+          "UNKNOWN": {
+            "value": 6087545568.0,
+            "weight": 6939159210.0
+          },
+          "VESSEL": {
+            "value": 476906962068.0,
+            "weight": 56003843508.0
+          }
+        },
+        "2": {
+          "AIR": {
+            "value": 12857712.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 102838659858.0,
+            "weight": 46675062672.0
+          },
+          "OTHER": {
+            "value": 28819166640.0,
+            "weight": 145796094.0
+          },
+          "PIPELINE": {
+            "value": 48522777552.0,
+            "weight": 87092823354.0
+          },
+          "RAIL": {
+            "value": 59730378198.0,
+            "weight": 80219697936.0
+          },
+          "ROAD": {
+            "value": 27577708512.0,
+            "weight": 157950420.0
+          },
+          "UNKNOWN": {
+            "value": 5681082030.0,
+            "weight": 5170903530.0
+          },
+          "VESSEL": {
+            "value": 500311972122.0,
+            "weight": 56543513280.0
+          }
+        },
+        "3": {
+          "AIR": {
+            "value": 9870116.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 74005887052.0,
+            "weight": 33924073548.0
+          },
+          "OTHER": {
+            "value": 19953973296.0,
+            "weight": 156782152.0
+          },
+          "PIPELINE": {
+            "value": 34328584272.0,
+            "weight": 61421281984.0
+          },
+          "RAIL": {
+            "value": 40697030768.0,
+            "weight": 55039664812.0
+          },
+          "ROAD": {
+            "value": 17733488744.0,
+            "weight": 111325824.0
+          },
+          "UNKNOWN": {
+            "value": 3099445468.0,
+            "weight": 2573902104.0
+          },
+          "VESSEL": {
+            "value": 344333054212.0,
+            "weight": 39248357176.0
+          }
+        },
+        "4": {
+          "AIR": {
+            "value": 14062602.0,
+            "weight": 6.0
+          },
+          "MAIL": {
+            "value": 109381351404.0,
+            "weight": 48813609186.0
+          },
+          "OTHER": {
+            "value": 27166411824.0,
+            "weight": 164443842.0
+          },
+          "PIPELINE": {
+            "value": 56398911594.0,
+            "weight": 95923030146.0
+          },
+          "RAIL": {
+            "value": 58490186070.0,
+            "weight": 85840848426.0
+          },
+          "ROAD": {
+            "value": 27708073362.0,
+            "weight": 168010056.0
+          },
+          "UNKNOWN": {
+            "value": 5724566946.0,
+            "weight": 5430454290.0
+          },
+          "VESSEL": {
+            "value": 543090023232.0,
+            "weight": 60837161478.0
+          }
+        },
+        "5": {
+          "AIR": {
+            "value": 12581352.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 110826483006.0,
+            "weight": 49074062406.0
+          },
+          "OTHER": {
+            "value": 28856545944.0,
+            "weight": 158300754.0
+          },
+          "PIPELINE": {
+            "value": 57152920302.0,
+            "weight": 96454125618.0
+          },
+          "RAIL": {
+            "value": 59284901316.0,
+            "weight": 93054528306.0
+          },
+          "ROAD": {
+            "value": 26576763048.0,
+            "weight": 163485456.0
+          },
+          "UNKNOWN": {
+            "value": 5482507242.0,
+            "weight": 4586128962.0
+          },
+          "VESSEL": {
+            "value": 545349440934.0,
+            "weight": 60312945762.0
+          }
+        },
+        "6": {
+          "AIR": {
+            "value": 11272722.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 104907158538.0,
+            "weight": 44133288798.0
+          },
+          "OTHER": {
+            "value": 30416298846.0,
+            "weight": 140529792.0
+          },
+          "PIPELINE": {
+            "value": 53654795250.0,
+            "weight": 90968169624.0
+          },
+          "RAIL": {
+            "value": 62665691406.0,
+            "weight": 98964710856.0
+          },
+          "ROAD": {
+            "value": 27487659192.0,
+            "weight": 164495802.0
+          },
+          "UNKNOWN": {
+            "value": 4653401466.0,
+            "weight": 3962874288.0
+          },
+          "VESSEL": {
+            "value": 521577898344.0,
+            "weight": 57014561934.0
+          }
+        },
+        "7": {
+          "AIR": {
+            "value": 11143410.0,
+            "weight": 0.0
+          },
+          "MAIL": {
+            "value": 96026397948.0,
+            "weight": 44195156892.0
+          },
+          "OTHER": {
+            "value": 28500115704.0,
+            "weight": 143261670.0
+          },
+          "PIPELINE": {
+            "value": 61277009586.0,
+            "weight": 101227322004.0
+          },
+          "RAIL": {
+            "value": 62771981382.0,
+            "weight": 92799667320.0
+          },
+          "ROAD": {
+            "value": 29937836196.0,
+            "weight": 159701430.0
+          },
+          "UNKNOWN": {
+            "value": 5468321562.0,
+            "weight": 4951188324.0
+          },
+          "VESSEL": {
+            "value": 520942431222.0,
+            "weight": 57043246308.0
+          }
+        },
+        "8": {
+          "AIR": {
+            "value": 11029542.0,
+            "weight": 6.0
+          },
+          "MAIL": {
+            "value": 101622366732.0,
+            "weight": 42465681528.0
+          },
+          "OTHER": {
+            "value": 28085693442.0,
+            "weight": 104500230.0
+          },
+          "PIPELINE": {
+            "value": 53256477240.0,
+            "weight": 86955955968.0
+          },
+          "RAIL": {
+            "value": 58965902388.0,
+            "weight": 90559754238.0
+          },
+          "ROAD": {
+            "value": 28174319310.0,
+            "weight": 161454360.0
+          },
+          "UNKNOWN": {
+            "value": 6271476246.0,
+            "weight": 5125162818.0
+          },
+          "VESSEL": {
+            "value": 543966321870.0,
+            "weight": 56596154292.0
+          }
+        },
+        "9": {
+          "AIR": {
+            "value": 12244398.0,
+            "weight": 936.0
+          },
+          "MAIL": {
+            "value": 102192152658.0,
+            "weight": 43021963422.0
+          },
+          "OTHER": {
+            "value": 39253793154.0,
+            "weight": 107961150.0
+          },
+          "PIPELINE": {
+            "value": 50841837852.0,
+            "weight": 87490625292.0
+          },
+          "RAIL": {
+            "value": 60769660812.0,
+            "weight": 98891655690.0
+          },
+          "ROAD": {
+            "value": 27656756040.0,
+            "weight": 164654268.0
+          },
+          "UNKNOWN": {
+            "value": 6146725170.0,
+            "weight": 5888287962.0
+          },
+          "VESSEL": {
+            "value": 530754421458.0,
+            "weight": 56834523690.0
+          }
+        }
+      },
+      "trade_corridors": {
+        "TX": {
+          "VESSEL": {
+            "value": 767543500204.0,
+            "weight": 73283786148.0
+          },
+          "RAIL": {
+            "value": 143795672348.0,
+            "weight": 207514930288.0
+          }
+        },
+        "CA": {
+          "VESSEL": {
+            "value": 315178219888.0,
+            "weight": 32522022304.0
+          }
+        },
+        "MI": {
+          "VESSEL": {
+            "value": 260856042276.0,
+            "weight": 33954951500.0
+          },
+          "MAIL": {
+            "value": 179687530688.0,
+            "weight": 22965393696.0
+          }
+        },
+        "IL": {
+          "VESSEL": {
+            "value": 151527416884.0,
+            "weight": 16890106864.0
+          },
+          "PIPELINE": {
+            "value": 136569065840.0,
+            "weight": 276530856076.0
+          }
+        },
+        "OH": {
+          "VESSEL": {
+            "value": 142644614508.0,
+            "weight": 14297039516.0
+          }
+        },
+        "DU": {
+          "OTHER": {
+            "value": 136409011276.0,
+            "weight": 18100.0
+          }
+        },
+        "NY": {
+          "VESSEL": {
+            "value": 113192121848.0,
+            "weight": 19563838524.0
+          }
+        }
+      }
+    }
+  },
+  "insights": {
+    "trends": [
+      "AIR accounts for 0.0% of total freight value",
+      "MAIL accounts for 12.9% of total freight value",
+      "OTHER accounts for 3.7% of total freight value",
+      "PIPELINE accounts for 6.8% of total freight value",
+      "RAIL accounts for 7.5% of total freight value",
+      "ROAD accounts for 3.4% of total freight value",
+      "UNKNOWN accounts for 0.7% of total freight value",
+      "VESSEL accounts for 65.0% of total freight value"
+    ],
+    "efficiency": [
+      "AIR shows average value density of $78.66 per ton",
+      "MAIL shows average value density of $2.06 per ton",
+      "OTHER shows average value density of $2,905.32 per ton",
+      "PIPELINE shows average value density of $0.20 per ton",
+      "RAIL shows average value density of $83.06 per ton",
+      "ROAD shows average value density of $1,123.06 per ton",
+      "UNKNOWN shows average value density of $123.58 per ton",
+      "VESSEL shows average value density of $36.90 per ton"
+    ],
+    "environmental": [
+      "AIR generates 1.53 kg CO2 per ton",
+      "MAIL generates 0.16 kg CO2 per ton",
+      "OTHER generates 0.16 kg CO2 per ton",
+      "PIPELINE generates 0.01 kg CO2 per ton",
+      "RAIL generates 0.02 kg CO2 per ton",
+      "ROAD generates 0.16 kg CO2 per ton",
+      "UNKNOWN generates 0.16 kg CO2 per ton",
+      "VESSEL generates 0.05 kg CO2 per ton"
+    ],
+    "seasonal": [
+      "Peak freight activity occurs in month 5"
+    ],
+    "corridors": [
+      "Major trade origin: TX with $911,339,172,552 in value",
+      "Major trade origin: CA with $315,178,219,888 in value",
+      "Major trade origin: MI with $440,543,572,964 in value",
+      "Major trade origin: IL with $288,096,482,724 in value",
+      "Major trade origin: OH with $142,644,614,508 in value",
+      "Major trade origin: DU with $136,409,011,276 in value",
+      "Major trade origin: NY with $113,192,121,848 in value"
+    ],
+    "recommendations": [
+      "Invest in infrastructure for modes with high utilization",
+      "Implement emission reduction strategies for high-impact modes",
+      "Optimize scheduling to better distribute seasonal freight volumes",
+      "Focus safety measures on modes with higher risk factors",
+      "Develop specialized handling for high-value corridors",
+      "Promote modal shift to more efficient options where feasible",
+      "Enhance data collection and monitoring systems"
+    ],
+    "business_question_answers": {
+      "Q1: What are the major trends in freight value and volume across transport modes?": [
+        "Vessel transport dominates with 65.0% of total freight value",
+        "Mail services handle 12.9% of value",
+        "Rail contributes 7.5% of total value",
+        "This distribution suggests a heavy reliance on maritime transport for international freight"
+      ],
+      "Q2: Which transport modes are most cost-efficient and environmentally sustainable?": [
+        "Most cost-efficient: Road ($1,123.06/ton) and Rail ($83.06/ton)",
+        "Most environmentally sustainable: Pipeline (0.01 kg CO2/ton) and Rail (0.02 kg CO2/ton)",
+        "Rail offers the best balance of cost efficiency and environmental sustainability"
+      ],
+      "Q3: What are the seasonal patterns in freight movement and their implications?": [
+        "Peak activity occurs in month 5",
+        "This suggests potential capacity constraints during peak periods",
+        "Infrastructure planning should account for seasonal variations"
+      ],
+      "Q4: Which trade corridors show the highest growth potential?": [
+        "Top trade corridors by value:",
+        "- TX: $911,339,172,552",
+        "- CA: $315,178,219,888",
+        "- MI: $440,543,572,964",
+        "These corridors should be prioritized for infrastructure investment"
+      ],
+      "Q5: What are the safety risks and environmental impacts by transport mode?": [
+        "Environmental Impact Rankings (kg CO2 per ton):",
+        "- AIR: 1.53",
+        "- OTHER: 0.16",
+        "- MAIL: 0.16",
+        "Focus needed on reducing emissions in high-impact modes"
+      ],
+      "Q6: How has modal split evolved and what are the infrastructure implications?": [
+        "Current modal split suggests:",
+        "- Heavy reliance on maritime infrastructure",
+        "- Need for better intermodal connections",
+        "- Potential capacity constraints in major ports"
+      ],
+      "Q7: What strategic recommendations can improve freight efficiency and sustainability?": [
+        "Key recommendations:",
+        "1. Invest in port infrastructure to support dominant vessel traffic",
+        "2. Develop intermodal connections for efficient transfers",
+        "3. Implement emission reduction strategies for high-impact modes",
+        "4. Optimize capacity utilization during peak seasons",
+        "5. Focus on rail infrastructure for sustainable growth"
+      ]
+    }
+  }
+}
